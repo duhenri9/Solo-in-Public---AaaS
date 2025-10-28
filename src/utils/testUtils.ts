@@ -43,14 +43,19 @@ export const performanceMetrics = {
   },
 
   checkMemoryUsage: () => {
-    if (window.performance && window.performance.memory) {
-      const memory = window.performance.memory;
-      return {
-        totalJSHeapSize: memory.totalJSHeapSize,
-        usedJSHeapSize: memory.usedJSHeapSize,
-        jsHeapSizeLimit: memory.jsHeapSizeLimit
+    const perf = window.performance as Performance & {
+      memory?: {
+        totalJSHeapSize: number;
+        usedJSHeapSize: number;
+        jsHeapSizeLimit: number;
       };
+    };
+
+    if (perf && perf.memory) {
+      const { totalJSHeapSize, usedJSHeapSize, jsHeapSizeLimit } = perf.memory;
+      return { totalJSHeapSize, usedJSHeapSize, jsHeapSizeLimit };
     }
+
     return null;
   }
 };

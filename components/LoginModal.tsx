@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Modal from './ui/Modal';
 import Button from './ui/Button';
 import { LogoIcon } from '../constants';
+import { useTranslation } from 'react-i18next';
+import { AuthService } from '@/src/services/authService';
 
 interface LoginModalProps {
   isOpen: boolean;
   onClose: () => void;
   onLoginSuccess: () => void;
+  leadId?: string;
 }
 
 const LinkedInIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -16,29 +19,40 @@ const LinkedInIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 
-const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLoginSuccess }) => {
+const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLoginSuccess, leadId }) => {
     const [isLoading, setIsLoading] = useState(false);
+    const { t } = useTranslation();
+
+    const handleOAuthSuccess = useCallback(() => {
+        setIsLoading(false);
+        onLoginSuccess();
+    }, [onLoginSuccess]);
+
+    useEffect(() => {
+        const listener = () => handleOAuthSuccess();
+        window.addEventListener('auth:linkedin:succeed', listener);
+
+        return () => {
+            window.removeEventListener('auth:linkedin:succeed', listener);
+        };
+    }, [handleOAuthSuccess]);
 
     const handleLogin = () => {
         setIsLoading(true);
-        // Simulate OAuth flow
-        setTimeout(() => {
-            setIsLoading(false);
-            onLoginSuccess();
-        }, 1500);
+        AuthService.startLinkedInOAuth(leadId);
     };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="p-8 text-center">
         <LogoIcon className="h-12 w-12 text-blue-400 mx-auto mb-4" />
-        <h2 className="text-2xl font-bold text-white mb-2">Bem-vindo ao Solo in Public</h2>
-        <p className="text-slate-400 mb-8">Conecte sua conta do LinkedIn para começar a construir em público com seu agente de IA.</p>
+        <h2 className="text-2xl font-bold text-white mb-2">{t('loginModal.title')}</h2>
+        <p className="text-slate-400 mb-8">{t('loginModal.subtitle')}</p>
         <Button onClick={handleLogin} disabled={isLoading} variant="primary" className="w-full flex items-center justify-center gap-3 text-lg">
             <LinkedInIcon className="h-6 w-6" />
-            {isLoading ? 'Conectando...' : 'Conectar com LinkedIn'}
+            {isLoading ? t('loginModal.loading') : t('loginModal.button')}
         </Button>
-        <p className="text-xs text-slate-500 mt-4">Nós nunca publicaremos nada sem a sua permissão.</p>
+        <p className="text-xs text-slate-500 mt-4">{t('loginModal.footnote')}</p>
       </div>
     </Modal>
   );

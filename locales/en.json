@@ -1,20 +1,304 @@
 {
+  "common": {
+    "brandName": "Solo in Public",
+    "permissionReminder": "We will never publish anything without your permission."
+  },
+  "modal": {
+    "close": "Close modal"
+  },
   "header": {
     "features": "Features",
     "engagement": "Engagement",
     "proFeatures": "Pro Features",
     "pricing": "Pricing",
-    "philosophy": "Philosophy"
+    "philosophy": "Philosophy",
+    "login": "Log in",
+    "logout": "Log out",
+    "activate": "Activate My Agent"
   },
   "heroSection": {
-    "title": "Build or Optimize in Public.\nGrow by Sharing Value.",
+    "titleLines": [
+      "Build or optimize in public.",
+      "Grow by sharing value."
+    ],
     "subtitle": "Let the Pro-founder Agent work for you — the AaaS that manages your LinkedIn presence while you focus on the product.",
     "primaryButton": "Activate My Agent",
-    "secondaryButton": "Start Free",
+    "secondaryButton": "Submit briefing",
     "permissionNote": "We will never publish anything without your permission."
   },
   "problemSection": {
-    "title": "Publishing on LinkedIn is essential, but takes time.",
-    "description": "Maintaining consistency, engagement, and authenticity is almost impossible alone. Solo in Public solves this — with AI, purpose, and zero friction."
+    "title": "Posting on LinkedIn is essential, but time-consuming.",
+    "description": "Staying consistent, engaging, and authentic is almost impossible alone. Solo in Public fixes that — with AI, purpose, and zero friction."
+  },
+  "solutionSection": {
+    "title": "Meet the Pro-founder Agent",
+    "subtitle": "Your AI co-pilot to build in public with purpose and consistency.",
+    "features": [
+      {
+        "icon": "BrainIcon",
+        "title": "Creates real content",
+        "description": "Generates posts from your journey, metrics, learnings, and milestones. Authenticity at scale."
+      },
+      {
+        "icon": "CalendarIcon",
+        "title": "Schedules automatically",
+        "description": "Analyzes performance and schedules your content at the best times to maximize reach."
+      },
+      {
+        "icon": "ChatIcon",
+        "title": "Engages ethically",
+        "description": "Interacts naturally in your niche, building valuable connections without sounding robotic."
+      },
+      {
+        "icon": "ChartIcon",
+        "title": "Learns and improves",
+        "description": "Understands your tone and evolves with you, providing insights to optimize your strategy."
+      }
+    ]
+  },
+  "engagementSection": {
+    "title": "Ethical engagement, elevated",
+    "subtitle": "Go beyond likes. Build genuine connections with an agent that understands people.",
+    "features": [
+      {
+        "icon": "TargetIcon",
+        "title": "Surfaces relevant conversations",
+        "description": "Monitors your niche and surfaces the most valuable discussions for you to join, where your voice matters most."
+      },
+      {
+        "icon": "FeatherIcon",
+        "title": "Drafts personalized replies",
+        "description": "Uses context and your interaction history to craft authentic responses that reflect your tone and expertise."
+      },
+      {
+        "icon": "ClockIcon",
+        "title": "Suggests the ideal timing",
+        "description": "Keeps engagement natural by suggesting the best moments to jump in, avoiding automation spikes."
+      }
+    ]
+  },
+  "differentiatorSection": {
+    "title": "Why is it different?",
+    "description": "Most tools automate content.",
+    "highlight": "Solo in Public automates purposeful growth.",
+    "supporting": "The method not only boosts launches, but also powers ongoing optimization and growth for your SaaS, helping you evolve constantly and strengthen your authority."
+  },
+  "advancedFeaturesSection": {
+    "title": "Take your Building in Public to the next level",
+    "subtitle": "Exclusive Pro Founder features to accelerate your growth and impact.",
+    "features": [
+      {
+        "icon": "UsersIcon",
+        "title": "Multi-agent personas",
+        "description": "Create and manage different communication styles. Let the “Visionary Agent” inspire and the “Technical Agent” dive deep."
+      },
+      {
+        "icon": "MagicCalendarIcon",
+        "title": "AI content calendar",
+        "description": "Receive an AI-generated posting calendar based on trending topics in your niche, optimized for relevance and timing."
+      },
+      {
+        "icon": "ShareIcon",
+        "title": "Public dashboards",
+        "description": "Generate shareable progress reports with one click. Celebrate wins and learnings with your community."
+      }
+    ]
+  },
+  "pricingSection": {
+    "title": "Simple, transparent plans",
+    "subtitle": "Start free and scale when you’re ready.",
+    "freePlan": {
+      "name": "Free",
+      "description": "Perfect to start building in public.",
+      "price": "R$0",
+      "period": "/month",
+      "cta": "Submit briefing",
+      "features": [
+        "Basic dashboard",
+        "3 AI-generated posts per month",
+        "Analysis of 2 metrics",
+        "Limited recommendations"
+      ]
+    },
+    "proPlan": {
+      "name": "Pro Founder",
+      "description": "The complete agent for founders ready to scale.",
+      "price": "R$197",
+      "period": "/month",
+      "oldPrice": "R$297",
+      "badge": "Most popular",
+      "launchLabel": "Launch price",
+      "cta": "Activate Pro-founder Agent",
+      "features": [
+        "Everything in Free",
+        "Adaptive AI and full automation",
+        "Ethical, intelligent engagement",
+        "Advanced reports and alerts",
+        "<strong>Multi-agent personas</strong>",
+        "<strong>AI content calendar</strong>",
+        "<strong>Shareable public dashboards</strong>"
+      ]
+    }
+  },
+  "philosophySection": {
+    "title": "Our philosophy",
+    "quote": "“Building in public is about sharing value, not just metrics. Growing with transparency is the new unfair advantage.”"
+  },
+  "ctaSection": {
+    "titleLines": [
+      "Activate your agent.",
+      "Build with purpose.",
+      "Grow in public."
+    ],
+    "cta": "Activate Pro-founder Agent",
+    "footnote": "We will never publish anything without your permission."
+  },
+  "footer": {
+    "copyright": "© {{year}} Solo in Public. All rights reserved.",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "contact": "Contact"
+  },
+  "loginModal": {
+    "title": "Welcome to Solo in Public",
+    "subtitle": "Connect your LinkedIn account to start building in public with your AI agent.",
+    "button": "Continue with LinkedIn",
+    "loading": "Connecting...",
+    "footnote": "We will never publish anything without your permission."
+  },
+  "checkoutModal": {
+    "title": "Activate Pro-founder Agent",
+    "subtitle": "You’re locking in the special launch price.",
+    "planLabel": "Pro Founder",
+    "launchTag": "Launch price",
+    "price": "R$197",
+    "oldPrice": "R$297",
+    "period": "/month",
+    "processing": "Processing...",
+    "payCta": "Pay R$197",
+    "successTitle": "Payment successful!",
+    "successDescription": "Welcome aboard! Your Pro-founder Agent is live.",
+    "successCta": "Start building",
+    "stripeDisclaimer": "Secure payment via Stripe. Cancel anytime.",
+    "secureNote": "Payment details are collected through a secure Stripe-hosted checkout. No sensitive data is stored in this interface.",
+    "fields": {
+      "fullName": "Full name",
+      "email": "Billing email",
+      "company": "Company or project",
+      "cardNumber": "Card number",
+      "cardExpiry": "MM / YY",
+      "cardCvc": "CVC"
+    },
+    "features": [
+      "Adaptive AI and full automation",
+      "Ethical, intelligent engagement",
+      "Advanced reports and alerts"
+    ],
+    "permissionReminder": "We will never publish anything without your permission."
+  },
+  "leadCapture": {
+    "title": "Tell us about your journey",
+    "subtitle": "We need a few details to prepare your agent onboarding and connect you with the right specialist.",
+    "fields": {
+      "fullName": "Full name",
+      "email": "Work email",
+      "company": "Company or project",
+      "role": "Role or responsibility",
+      "primaryGoal": "What’s the main goal with the agent?",
+      "monthlyBudget": "Monthly investment range",
+      "urgency": "How urgent is this?",
+      "notes": "Share any extra context (optional)",
+      "consent": "I agree to receive contact from the Solo in Public team to continue onboarding."
+    },
+    "options": {
+      "primaryGoal": {
+        "content": "Consistent content production",
+        "launch": "Product launch / growth",
+        "pipeline": "Lead qualification and pipeline",
+        "support": "Customer or community support",
+        "other": "Other"
+      },
+      "monthlyBudget": {
+        "starter": "Up to R$500/month",
+        "growth": "Between R$500 and R$1,500/month",
+        "scale": "Above R$1,500/month",
+        "undisclosed": "Prefer not to disclose"
+      },
+      "urgency": {
+        "immediate": "Need to activate within a week",
+        "soon": "Ready to start this month",
+        "exploring": "Evaluating options",
+        "justLooking": "Just researching"
+      }
+    },
+    "submit": "Submit briefing",
+    "submitting": "Sending...",
+    "successTitle": "Briefing received!",
+    "successDescription": "Our team will reach out within one business day with your onboarding next step.",
+    "successCta": "Close",
+    "errorMessage": "We couldn’t submit your details right now. Please try again shortly."
+  },
+  "feedback": {
+    "widgetLabel": "Send feedback",
+    "modalTitle": "Share your feedback",
+    "modalSubtitle": "We value your perspective! What’s on your mind?",
+    "categoryLabel": "Feedback type",
+    "messageLabel": "Message",
+    "placeholder": "How can we improve?",
+    "submit": "Submit feedback",
+    "submitting": "Sending...",
+    "successTitle": "Thank you!",
+    "successDescription": "We’ve received your feedback. Thanks for helping us improve Solo in Public.",
+    "close": "Close",
+    "categories": {
+      "suggestion": "Suggestion",
+      "bug": "Bug report",
+      "general": "General feedback"
+    }
+  },
+  "chatbot": {
+    "launcher": "Assistant",
+    "title": "Pro-founder Agent Assistant",
+    "placeholder": "Type your message...",
+    "send": "Send",
+    "listeningStart": "Start recording",
+    "listeningStop": "Stop recording",
+    "speechUnsupported": "Your browser does not support speech recognition.",
+    "loading": "Typing...",
+    "initialMessage": "Voice is now available in chat. Follow the conversation with live transcription.",
+    "errorFallback": "Sorry, something went wrong. Please try again.",
+    "connectionError": "We couldn’t connect to the assistant. Please check your configuration.",
+    "handoverPrompt": "I’d like to speak with a human."
+  },
+  "notifications": {
+    "dismiss": "Dismiss notification",
+    "loginSuccess": {
+      "title": "Logged in",
+      "message": "You’re connected. The agent is ready to help."
+    },
+    "logout": {
+      "title": "Signed out",
+      "message": "You have been safely disconnected."
+    },
+    "feedbackSent": {
+      "title": "Feedback sent",
+      "message": "Thanks for sharing your ideas!"
+    },
+    "leadCaptured": {
+      "title": "Briefing submitted",
+      "message": "We’ll review your information and follow up shortly."
+    },
+    "simulation": {
+      "title": "Checkout running in simulation mode",
+      "message": "Connect the backend and Stripe to enable live billing."
+    },
+    "handover": {
+      "title": "Human handover triggered",
+      "message": "A specialist is being notified with this conversation’s context."
+    },
+    "error": {
+      "title": "Unexpected error",
+      "message": "We couldn’t complete your request. Please try again."
+    }
   }
 }

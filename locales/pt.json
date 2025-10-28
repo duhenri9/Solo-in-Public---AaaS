@@ -1,20 +1,304 @@
 {
+  "common": {
+    "brandName": "Solo in Public",
+    "permissionReminder": "Nós nunca publicaremos nada sem a sua permissão."
+  },
+  "modal": {
+    "close": "Fechar modal"
+  },
   "header": {
     "features": "Recursos",
     "engagement": "Engajamento",
     "proFeatures": "Recursos Pro",
     "pricing": "Preços",
-    "philosophy": "Filosofia"
+    "philosophy": "Filosofia",
+    "login": "Login",
+    "logout": "Sair",
+    "activate": "Ativar meu Agente"
   },
   "heroSection": {
-    "title": "Construa ou Otimize em público.\nCresça partilhando Valor.",
-    "subtitle": "Deixe o agente Pro-founder trabalhar por você — o AaaS que gerencia sua presença no LinkedIn enquanto você foca no produto.",
+    "titleLines": [
+      "Construa ou otimize em público.",
+      "Cresça partilhando valor."
+    ],
+    "subtitle": "Deixe o Agente Pro-founder trabalhar por você — o AaaS que gerencia sua presença no LinkedIn enquanto você foca no produto.",
     "primaryButton": "Ativar meu Agente",
-    "secondaryButton": "Começar Grátis",
+    "secondaryButton": "Enviar briefing",
     "permissionNote": "Nós nunca publicaremos nada sem a sua permissão."
   },
   "problemSection": {
     "title": "Publicar no LinkedIn é essencial, mas toma tempo.",
     "description": "Manter consistência, engajamento e autenticidade é quase impossível sozinho. O Solo in Public resolve isso — com IA, propósito e zero fricção."
+  },
+  "solutionSection": {
+    "title": "Conheça o Agente Pro-founder",
+    "subtitle": "Seu copiloto de IA para construir em público com propósito e consistência.",
+    "features": [
+      {
+        "icon": "BrainIcon",
+        "title": "Gera conteúdo real",
+        "description": "Cria posts com base na sua jornada, métricas, aprendizados e milestones. Autenticidade em escala."
+      },
+      {
+        "icon": "CalendarIcon",
+        "title": "Agenda automaticamente",
+        "description": "Analisa a performance e publica seus conteúdos nos melhores horários para maximizar o alcance."
+      },
+      {
+        "icon": "ChatIcon",
+        "title": "Engaja com ética",
+        "description": "Interage com naturalidade em seu nicho, criando conexões valiosas sem parecer um robô."
+      },
+      {
+        "icon": "ChartIcon",
+        "title": "Analisa e aprende",
+        "description": "Aprende seu tom de voz e evolui junto com você, fornecendo insights para otimizar sua estratégia."
+      }
+    ]
+  },
+  "engagementSection": {
+    "title": "Engajamento ético, elevado a outro nível",
+    "subtitle": "Vá além de simples curtidas. Crie conexões genuínas com um agente que entende de pessoas.",
+    "features": [
+      {
+        "icon": "TargetIcon",
+        "title": "Identifica conversas relevantes",
+        "description": "O agente monitora seu nicho e identifica as discussões mais valiosas para você participar, onde sua voz terá mais impacto."
+      },
+      {
+        "icon": "FeatherIcon",
+        "title": "Cria comentários personalizados",
+        "description": "Com base no contexto e no seu histórico de interações, o agente elabora respostas autênticas que refletem seu tom e conhecimento."
+      },
+      {
+        "icon": "ClockIcon",
+        "title": "Sugere o momento ideal",
+        "description": "Para manter a naturalidade, o agente sugere os melhores horários para engajar, evitando picos de automação e mantendo uma presença humana."
+      }
+    ]
+  },
+  "differentiatorSection": {
+    "title": "Por que é diferente?",
+    "description": "A maioria das ferramentas automatiza conteúdo.",
+    "highlight": "O Solo in Public automatiza crescimento com propósito.",
+    "supporting": "Esse método não só impulsiona lançamentos, mas também potencializa a otimização e o crescimento contínuo do seu SaaS, permitindo que você evolua constantemente e fortaleça sua autoridade."
+  },
+  "advancedFeaturesSection": {
+    "title": "Leve seu Building in Public para o próximo nível",
+    "subtitle": "Recursos exclusivos do plano Pro Founder para acelerar seu crescimento e impacto.",
+    "features": [
+      {
+        "icon": "UsersIcon",
+        "title": "Personas Multi-Agente",
+        "description": "Crie e gerencie diferentes estilos de comunicação. Deixe o \"Agente Visionário\" inspirar e o \"Agente Técnico\" detalhar."
+      },
+      {
+        "icon": "MagicCalendarIcon",
+        "title": "Calendário de Conteúdo IA",
+        "description": "Receba um calendário de postagens gerado por IA com base em tópicos em alta no seu nicho, otimizado para relevância e timing."
+      },
+      {
+        "icon": "ShareIcon",
+        "title": "Dashboards públicos",
+        "description": "Gere relatórios de progresso compartilháveis com um clique. Celebre suas vitórias e aprendizados com sua comunidade."
+      }
+    ]
+  },
+  "pricingSection": {
+    "title": "Planos simples e transparentes",
+    "subtitle": "Comece de graça e escale quando estiver pronto.",
+    "freePlan": {
+      "name": "Free",
+      "description": "Ideal para começar a construir em público.",
+      "price": "R$0",
+      "period": "/mês",
+      "cta": "Enviar briefing",
+      "features": [
+        "Dashboard básico",
+        "3 posts/mês gerados por IA",
+        "Análise de 2 métricas",
+        "Recomendações limitadas"
+      ]
+    },
+    "proPlan": {
+      "name": "Pro Founder",
+      "description": "O agente completo para founders que querem escalar.",
+      "price": "R$197",
+      "period": "/mês",
+      "oldPrice": "R$297",
+      "badge": "Mais popular",
+      "launchLabel": "Preço de lançamento",
+      "cta": "Ativar Agente Pro-founder",
+      "features": [
+        "Todos os recursos do plano Free",
+        "IA adaptativa e automação completa",
+        "Engajamento ético e inteligente",
+        "Relatórios avançados e alertas",
+        "<strong>Personas Multi-Agente</strong>",
+        "<strong>Calendário de Conteúdo IA</strong>",
+        "<strong>Dashboards Públicos Compartilháveis</strong>"
+      ]
+    }
+  },
+  "philosophySection": {
+    "title": "Nossa filosofia",
+    "quote": "“Building in Public é sobre partilhar valor, não só métricas. Crescer com transparência é a nova vantagem competitiva.”"
+  },
+  "ctaSection": {
+    "titleLines": [
+      "Ative seu agente.",
+      "Construa com propósito.",
+      "Cresça em público."
+    ],
+    "cta": "Ativar Agente Pro-founder",
+    "footnote": "Nós nunca publicaremos nada sem a sua permissão."
+  },
+  "footer": {
+    "copyright": "© {{year}} Solo in Public. Todos os direitos reservados.",
+    "terms": "Termos",
+    "privacy": "Privacidade",
+    "contact": "Contato"
+  },
+  "loginModal": {
+    "title": "Bem-vindo ao Solo in Public",
+    "subtitle": "Conecte sua conta do LinkedIn para começar a construir em público com seu agente de IA.",
+    "button": "Conectar com LinkedIn",
+    "loading": "Conectando...",
+    "footnote": "Nós nunca publicaremos nada sem a sua permissão."
+  },
+  "checkoutModal": {
+    "title": "Ativar Agente Pro-founder",
+    "subtitle": "Você está garantindo o preço especial de lançamento.",
+    "planLabel": "Pro Founder",
+    "launchTag": "Preço de lançamento",
+    "price": "R$197",
+    "oldPrice": "R$297",
+    "period": "/mês",
+    "processing": "Processando...",
+    "payCta": "Pagar R$197",
+    "successTitle": "Pagamento bem-sucedido!",
+    "successDescription": "Bem-vindo(a) a bordo! Seu Agente Pro-founder está ativo.",
+    "successCta": "Começar a construir",
+    "stripeDisclaimer": "Pagamento seguro via Stripe. Cancele a qualquer momento.",
+    "secureNote": "Os dados de pagamento serão coletados em um checkout seguro operado pela Stripe. Nenhum dado sensível é armazenado nesta interface.",
+    "fields": {
+      "fullName": "Nome completo",
+      "email": "E-mail de faturamento",
+      "company": "Empresa ou projeto",
+      "cardNumber": "Número do cartão",
+      "cardExpiry": "MM / AA",
+      "cardCvc": "CVC"
+    },
+    "features": [
+      "IA adaptativa e automação completa",
+      "Engajamento ético e inteligente",
+      "Relatórios avançados e alertas"
+    ],
+    "permissionReminder": "Nós nunca publicaremos nada sem a sua permissão."
+  },
+  "leadCapture": {
+    "title": "Conte sobre sua jornada",
+    "subtitle": "Precisamos de algumas informações para preparar o onboarding do seu agente e conectar você ao time certo.",
+    "fields": {
+      "fullName": "Nome completo",
+      "email": "E-mail de trabalho",
+      "company": "Empresa ou projeto",
+      "role": "Cargo ou responsabilidade",
+      "primaryGoal": "Qual é o objetivo principal com o agente?",
+      "monthlyBudget": "Faixa de investimento mensal",
+      "urgency": "Qual é a urgência?",
+      "notes": "Compartilhe contexto adicional (opcional)",
+      "consent": "Aceito receber contato do time Solo in Public para avançar com o onboarding."
+    },
+    "options": {
+      "primaryGoal": {
+        "content": "Produção de conteúdo consistente",
+        "launch": "Lançamento / crescimento de produto",
+        "pipeline": "Qualificação de leads e pipeline",
+        "support": "Suporte a clientes / comunidade",
+        "other": "Outro"
+      },
+      "monthlyBudget": {
+        "starter": "Até R$500/mês",
+        "growth": "Entre R$500 e R$1.500/mês",
+        "scale": "Acima de R$1.500/mês",
+        "undisclosed": "Prefiro não informar"
+      },
+      "urgency": {
+        "immediate": "Preciso ativar na próxima semana",
+        "soon": "Quero ativar neste mês",
+        "exploring": "Ainda avaliando possibilidades",
+        "justLooking": "Somente pesquisando"
+      }
+    },
+    "submit": "Enviar briefing",
+    "submitting": "Enviando...",
+    "successTitle": "Briefing recebido!",
+    "successDescription": "Nossa equipe entrará em contato em até 1 dia útil com o próximo passo do onboarding.",
+    "successCta": "Fechar",
+    "errorMessage": "Não foi possível enviar seus dados agora. Tente novamente em instantes."
+  },
+  "feedback": {
+    "widgetLabel": "Enviar feedback",
+    "modalTitle": "Compartilhe seu feedback",
+    "modalSubtitle": "Nós valorizamos sua opinião! O que você tem em mente?",
+    "categoryLabel": "Tipo de feedback",
+    "messageLabel": "Mensagem",
+    "placeholder": "Como podemos melhorar?",
+    "submit": "Enviar feedback",
+    "submitting": "Enviando...",
+    "successTitle": "Obrigado!",
+    "successDescription": "Seu feedback foi recebido. Agradecemos por nos ajudar a tornar o Solo in Public melhor.",
+    "close": "Fechar",
+    "categories": {
+      "suggestion": "Sugestão",
+      "bug": "Relatório de bug",
+      "general": "Feedback geral"
+    }
+  },
+  "chatbot": {
+    "launcher": "Assistente",
+    "title": "Assistente do Pro-founder Agent",
+    "placeholder": "Digite sua mensagem...",
+    "send": "Enviar",
+    "listeningStart": "Falar",
+    "listeningStop": "Parar gravação",
+    "speechUnsupported": "Seu navegador não suporta reconhecimento de voz.",
+    "loading": "Digitando...",
+    "initialMessage": "A voz agora está no chat. Acompanhe a conversa em tempo real com transcrição.",
+    "errorFallback": "Desculpe, ocorreu um erro. Por favor, tente novamente.",
+    "connectionError": "Desculpe, não foi possível conectar ao assistente. Por favor, verifique sua configuração.",
+    "handoverPrompt": "Desejo falar com uma pessoa."
+  },
+  "notifications": {
+    "dismiss": "Dispensar notificação",
+    "loginSuccess": {
+      "title": "Login realizado",
+      "message": "Você está conectado(a). O agente está pronto para ajudar."
+    },
+    "logout": {
+      "title": "Sessão encerrada",
+      "message": "Você foi desconectado(a) com segurança."
+    },
+    "feedbackSent": {
+      "title": "Feedback enviado",
+      "message": "Obrigado por compartilhar suas ideias!"
+    },
+    "leadCaptured": {
+      "title": "Briefing enviado",
+      "message": "Vamos revisar suas informações e responder em breve."
+    },
+    "simulation": {
+      "title": "Checkout em modo de simulação",
+      "message": "Conecte o backend e a Stripe para ativar o pagamento real."
+    },
+    "handover": {
+      "title": "Conexão humana acionada",
+      "message": "Um especialista será notificado com o contexto desta conversa."
+    },
+    "error": {
+      "title": "Erro inesperado",
+      "message": "Não foi possível concluir sua solicitação. Tente novamente."
+    }
   }
 }

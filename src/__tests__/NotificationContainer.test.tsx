@@ -1,42 +1,75 @@
-import React from 'react';
+import React, { useImperativeHandle } from 'react';
 import { render, screen, act } from '@testing-library/react';
-import { NotificationProvider } from '../../hooks/useNotifications';
-import { NotificationContainer } from '../../components/NotificationContainer';
+import { NotificationProvider, useNotifications, Notification as NotificationType } from '../../hooks/useNotifications';
+import { LocalizationProvider } from '../../hooks/useLocalization';
+import NotificationContainer from '../../components/NotificationContainer';
 
 describe('NotificationContainer', () => {
-  const renderNotificationContainer = (notifications: any[] = []) => {
-    return render(
-      <NotificationProvider>
-        <NotificationContainer />
-      </NotificationProvider>
+  type NotificationContextHandle = {
+    addNotification: (notification: Omit<NotificationType, 'id'>) => void;
+  };
+
+  const NotificationTestBridge = React.forwardRef<NotificationContextHandle>((_, ref) => {
+    const { addNotification } = useNotifications();
+
+    useImperativeHandle(ref, () => ({
+      addNotification
+    }), [addNotification]);
+
+    return <NotificationContainer />;
+  });
+  NotificationTestBridge.displayName = 'NotificationTestBridge';
+
+  const renderNotificationContainer = () => {
+    const contextRef = React.createRef<NotificationContextHandle>();
+
+    const utils = render(
+      <LocalizationProvider>
+        <NotificationProvider>
+          <NotificationTestBridge ref={contextRef} />
+        </NotificationProvider>
+      </LocalizationProvider>
     );
+
+    if (!contextRef.current) {
+      throw new Error('Notification context not available for testing');
+    }
+
+    return { ...utils, contextRef };
   };
 
   test('renders without crashing', () => {
-    renderNotificationContainer();
-    const container = screen.getByTestId('notification-container');
-    expect(container).toBeInTheDocument();
+    const { contextRef } = renderNotificationContainer();
+    expect(screen.getByTestId('notification-container')).toBeInTheDocument();
+
+    act(() => {
+      contextRef.current.addNotification({
+        type: 'success',
+        title: 'Rendered',
+        message: 'Container mounted'
+      });
+    });
+
+    expect(screen.getByText('Container mounted')).toBeInTheDocument();
   });
 
   test('displays different types of notifications', () => {
-    const notificationTypes = [
+    const { contextRef } = renderNotificationContainer();
+    const notifications: Array<Omit<NotificationType, 'id'>> = [
       { type: 'success', title: 'Success', message: 'Success notification' },
       { type: 'error', title: 'Error', message: 'Error notification' },
       { type: 'warning', title: 'Warning', message: 'Warning notification' },
       { type: 'info', title: 'Info', message: 'Info notification' }
     ];
 
-    const { addNotification } = renderNotificationContainer();
-
-    notificationTypes.forEach(notification => {
+    notifications.forEach(notification => {
       act(() => {
-        addNotification(notification);
+        contextRef.current.addNotification(notification);
       });
     });
 
-    notificationTypes.forEach(notification => {
-      const notificationElement = screen.getByText(notification.message);
-      expect(notificationElement).toBeInTheDocument();
+    notifications.forEach(notification => {
+      expect(screen.getByText(notification.message)).toBeInTheDocument();
     });
   });
 
@@ -46,27 +79,27 @@ describe('NotificationContainer', () => {
     
     expect(container).toHaveAttribute('role', 'alert');
     expect(container).toHaveAttribute('aria-live', 'polite');
+    expect(container).toHaveAttribute('aria-atomic', 'false');
   });
 
-  test('notifications have correct styling based on type', () => {
-    const notificationTypes = [
-      { type: 'success', title: 'Success', message: 'Success notification', expectedClass: 'bg-green-500' },
-      { type: 'error', title: 'Error', message: 'Error notification', expectedClass: 'bg-red-500' },
-      { type: 'warning', title: 'Warning', message: 'Warning notification', expectedClass: 'bg-yellow-500' },
-      { type: 'info', title: 'Info', message: 'Info notification', expectedClass: 'bg-blue-500' }
+  test('notifications expose their types for styling', () => {
+    const { contextRef } = renderNotificationContainer();
+    const notifications: Array<Omit<NotificationType, 'id'>> = [
+      { type: 'success', title: 'Success', message: 'Success notification' },
+      { type: 'error', title: 'Error', message: 'Error notification' },
+      { type: 'warning', title: 'Warning', message: 'Warning notification' },
+      { type: 'info', title: 'Info', message: 'Info notification' }
     ];
 
-    const { addNotification } = renderNotificationContainer();
-
-    notificationTypes.forEach(notification => {
+    notifications.forEach(notification => {
       act(() => {
-        addNotification(notification);
+        contextRef.current.addNotification(notification);
       });
     });
 
-    notificationTypes.forEach(notification => {
-      const notificationElement = screen.getByText(notification.message);
-      expect(notificationElement).toHaveClass(notification.expectedClass);
+    notifications.forEach(notification => {
+      const element = screen.getByText(notification.message).closest('[data-notification-type]');
+      expect(element).toHaveAttribute('data-notification-type', notification.type);
     });
   });
 });

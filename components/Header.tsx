@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Button from './ui/Button';
 import LanguageSwitcher from './LanguageSwitcher';
 import { LogoIcon } from '../constants';
+import { useTranslation } from 'react-i18next';
 
 const UserIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="h-7 w-7 p-1 bg-slate-700 rounded-full">
@@ -22,6 +23,8 @@ const Header: React.FC<HeaderProps> = ({
   onLogoutClick, 
   onActivateClick 
 }) => {
+  const { t } = useTranslation();
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -32,21 +35,33 @@ const Header: React.FC<HeaderProps> = ({
     }
   };
 
+  const navItems = useMemo(() => ([
+    { key: 'features', section: 'features' },
+    { key: 'engagement', section: 'engagement' },
+    { key: 'proFeatures', section: 'advanced-features' },
+    { key: 'pricing', section: 'pricing' },
+    { key: 'philosophy', section: 'philosophy' }
+  ]), []);
+
   return (
     <header className="sticky top-0 z-50 bg-[#0D1117]/80 backdrop-blur-lg border-b border-slate-800">
       <div className="container mx-auto px-4 sm:px-8 py-3 flex flex-nowrap items-center justify-between gap-y-2 ">
         <a href="#" className="flex items-center gap-2 min-w-fit">
           <LogoIcon className="h-8 w-8 text-blue-400" />
-          <span className="text-xl font-bold text-white">Solo in Public</span>
+          <span className="text-xl font-bold text-white">{t('common.brandName')}</span>
         </a>
         {/* Menu navegação - escondido em telas <md */}
         <nav className="hidden md:flex flex-1 items-center justify-center">
           <div className="flex gap-x-6 ml-10 text-base font-medium text-slate-300">
-            <button onClick={() => scrollToSection('advanced-features')} className="hover:text-white transition-colors">Features</button>
-            <button onClick={() => scrollToSection('engagement')} className="hover:text-white transition-colors">Engajamento</button>
-            <button onClick={() => scrollToSection('advanced-features')} className="hover:text-white transition-colors">Recursos Pro</button>
-            <button onClick={() => scrollToSection('pricing')} className="hover:text-white transition-colors">Preços</button>
-            <button onClick={() => scrollToSection('philosophy')} className="hover:text-white transition-colors">Filosofia</button>
+            {navItems.map((item) => (
+              <button
+                key={item.key}
+                onClick={() => scrollToSection(item.section)}
+                className="hover:text-white transition-colors"
+              >
+                {t(`header.${item.key}`)}
+              </button>
+            ))}
           </div>
         </nav>
         {/* Bloco direito responsivo separado do menu com padding-left */}
@@ -57,14 +72,14 @@ const Header: React.FC<HeaderProps> = ({
                 onClick={onLoginClick}
                 className="text-slate-300 hover:text-white transition-colors text-base font-medium"
               >
-                Login
+                {t('header.login')}
               </button>
               <Button
                 onClick={onActivateClick}
                 variant="primary"
                 className="py-2 px-4 text-sm font-bold"
               >
-                Ativar meu Agente
+                {t('header.activate')}
               </Button>
             </>
           ) : (
@@ -74,7 +89,7 @@ const Header: React.FC<HeaderProps> = ({
               className="text-slate-400 hover:text-white transition-colors flex items-center gap-2"
             >
               <UserIcon />
-              <span className="text-sm font-semibold hidden sm:inline">Logout</span>
+              <span className="text-sm font-semibold hidden sm:inline">{t('header.logout')}</span>
             </button>
           )}
           <LanguageSwitcher />

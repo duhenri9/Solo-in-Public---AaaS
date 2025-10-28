@@ -1,120 +1,106 @@
-import React from 'react';
-import { render, renderHook, act } from '@testing-library/react';
-import { NotificationProvider, useNotifications } from '../../hooks/useNotifications';
-import { NotificationContainer } from '../../components/NotificationContainer';
+import React, { useImperativeHandle } from 'react';
+import { render, act } from '@testing-library/react';
+import { NotificationProvider, useNotifications, Notification as NotificationType } from '../../hooks/useNotifications';
+import NotificationContainer from '../../components/NotificationContainer';
+import { LocalizationProvider } from '../../hooks/useLocalization';
 
-describe('useNotifications Hook', () => {
-  const TestComponent = () => {
-    const { addNotification } = useNotifications();
-    return (
-      <button 
-        onClick={() => addNotification({
-          type: 'success', 
-          title: 'Test Title',
-          message: 'Test Notification'
-        })}
+type NotificationContextHandle = {
+  addNotification: (notification: Omit<NotificationType, 'id'>) => void;
+};
+
+const NotificationTestHarness = React.forwardRef<NotificationContextHandle>((_, ref) => {
+  const context = useNotifications();
+
+  useImperativeHandle(ref, () => ({
+    addNotification: context.addNotification
+  }), [context.addNotification]);
+
+  return (
+    <>
+      <button
+        onClick={() =>
+          context.addNotification({
+            type: 'success',
+            title: 'Test Title',
+            message: 'Test Notification'
+          })
+        }
       >
         Add Notification
       </button>
+      <NotificationContainer />
+    </>
+  );
+});
+NotificationTestHarness.displayName = 'NotificationTestHarness';
+
+describe('useNotifications Hook', () => {
+  const renderHarness = () => {
+    const ref = React.createRef<NotificationContextHandle>();
+    const utils = render(
+      <LocalizationProvider>
+        <NotificationProvider>
+          <NotificationTestHarness ref={ref} />
+        </NotificationProvider>
+      </LocalizationProvider>
     );
+
+    if (!ref.current) {
+      throw new Error('Notification context not ready');
+    }
+
+    return { ...utils, contextRef: ref };
   };
 
   test('adds notification correctly', () => {
-    const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <NotificationProvider>{children}</NotificationProvider>
-    );
-
-    const { result } = renderHook(() => useNotifications(), { wrapper });
-
-    act(() => {
-      result.current.addNotification({
-        type: 'success',
-        title: 'Test Title',
-        message: 'Test Notification'
-      });
-    });
-
-    // Renderizar o componente para verificar a notificação
-    const { getByText } = render(
-      <NotificationProvider>
-        <TestComponent />
-        <NotificationContainer />
-      </NotificationProvider>
-    );
-
-    // Simular clique para adicionar notificação
+    const { getByText } = renderHarness();
     const button = getByText('Add Notification');
+
     act(() => {
       button.click();
     });
 
-    // Verificar se a notificação foi adicionada
     expect(getByText('Test Notification')).toBeInTheDocument();
   });
 
   test('supports different notification types', () => {
-    const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <NotificationProvider>{children}</NotificationProvider>
-    );
-
-    const { result } = renderHook(() => useNotifications(), { wrapper });
-
-    const testCases = [
+    const { contextRef, container } = renderHarness();
+    const notifications: Array<Omit<NotificationType, 'id'>> = [
       { type: 'success', title: 'Success', message: 'Success message' },
       { type: 'error', title: 'Error', message: 'Error message' },
       { type: 'info', title: 'Info', message: 'Info message' },
       { type: 'warning', title: 'Warning', message: 'Warning message' }
     ];
 
-    testCases.forEach(notification => {
+    notifications.forEach(notification => {
       act(() => {
-        result.current.addNotification(notification);
+        contextRef.current.addNotification(notification);
       });
     });
 
-    const { getAllByRole } = render(
-      <NotificationProvider>
-        <NotificationContainer />
-      </NotificationProvider>
-    );
-
-    // Verificar se todas as notificações foram renderizadas
-    const notificationElements = getAllByRole('alert');
-    expect(notificationElements.length).toBe(4);
+    const renderedNotifications = container.querySelectorAll('[data-notification-type]');
+    expect(renderedNotifications.length).toBe(4);
   });
 
   test('removes notifications after timeout', () => {
     jest.useFakeTimers();
 
-    const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <NotificationProvider>{children}</NotificationProvider>
-    );
-
-    const { result } = renderHook(() => useNotifications(), { wrapper });
+    const { contextRef, queryByText } = renderHarness();
 
     act(() => {
-      result.current.addNotification({
+      contextRef.current.addNotification({
         type: 'success',
         title: 'Temporary Title',
         message: 'Temporary Notification'
       });
     });
 
-    const { queryByText } = render(
-      <NotificationProvider>
-        <NotificationContainer />
-      </NotificationProvider>
-    );
-
-    // Verificar se a notificação existe inicialmente
     expect(queryByText('Temporary Notification')).toBeInTheDocument();
 
-    // Avançar o tempo para remover a notificação
     act(() => {
       jest.advanceTimersByTime(5000);
     });
 
-    // Verificar se a notificação foi removida
     expect(queryByText('Temporary Notification')).not.toBeInTheDocument();
 
     jest.useRealTimers();
