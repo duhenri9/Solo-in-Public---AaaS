@@ -7,6 +7,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import crypto from 'crypto';
 import OpenAI from 'openai';
+import Anthropic from '@anthropic-ai/sdk';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -60,6 +61,8 @@ const clientCancelUrl = `${clientOrigin}?checkout=cancel`;
 
 const openaiKey = process.env.OPENAI_API_KEY;
 const openai = openaiKey ? new OpenAI({ apiKey: openaiKey }) : null;
+const anthropicKey = process.env.ANTHROPIC_API_KEY;
+const anthropic = anthropicKey ? new Anthropic({ apiKey: anthropicKey }) : null;
 
 const knowledgeEntries = JSON.parse(
   await fs.readFile(path.join(process.cwd(), 'src/data/knowledgeBase.json'), 'utf8')
@@ -331,6 +334,88 @@ app.post('/chatwood/handover', async (req, res) => {
   handovers.push({ ...req.body, receivedAt: new Date().toISOString() });
   await writeJson(handoverFile, handovers);
   res.status(202).json({ status: 'queued' });
+});
+
+// Assistant text generation (server-side, avoids exposing keys in frontend)
+app.post('/assistant/generate', async (req, res) => {
+  const { prompt, modelPreference = 'auto', max_tokens = 300 } = req.body || {};
+  if (!prompt || typeof prompt !== 'string') {
+    return res.status(400).json({ error: 'Prompt is required' });
+  }
+
+  try {
+    // Choose model according to availability and preference
+    const wantsOpenAI = modelPreference === 'gpt-4o';
+    const wantsAnthropic = modelPreference === 'claude-3.5-haiku';
+
+    if (wantsOpenAI && openai) {
+      const response = await openai.chat.completions.create({
+        model: 'gpt-4o',
+        messages: [
+          { role: 'system', content: 'Você é um assistente de IA para o Solo in Public. Responda de forma objetiva e útil.' },
+          { role: 'user', content: prompt }
+        ],
+        temperature: 0.7,
+        max_tokens: Math.min(400, Math.max(50, max_tokens))
+      });
+      const text = response.choices[0]?.message?.content || '';
+      return res.json({ text, model: 'gpt-4o' });
+    }
+
+    if (wantsAnthropic && anthropic) {
+      const response = await anthropic.messages.create({
+        model: 'claude-3-5-haiku-latest',
+        max_tokens: Math.min(400, Math.max(50, max_tokens)),
+        temperature: 0.7,
+        system: 'Você é um assistente de IA para o Solo in Public. Responda de forma objetiva e útil.',
+        messages: [
+          { role: 'user', content: prompt }
+        ]
+      });
+      const textBlock = response.content.find((b) => b.type === 'text');
+      const text = textBlock && 'text' in textBlock ? textBlock.text : '';
+      return res.json({ text, model: 'claude-3.5-haiku' });
+    }
+
+    // Auto: prefer Anthropic, then OpenAI
+    if (anthropic) {
+      const response = await anthropic.messages.create({
+        model: 'claude-3-5-haiku-latest',
+        max_tokens: Math.min(400, Math.max(50, max_tokens)),
+        temperature: 0.7,
+        system: 'Você é um assistente de IA para o Solo in Public. Responda de forma objetiva e útil.',
+        messages: [
+          { role: 'user', content: prompt }
+        ]
+      });
+      const textBlock = response.content.find((b) => b.type === 'text');
+      const text = textBlock && 'text' in textBlock ? textBlock.text : '';
+      return res.json({ text, model: 'claude-3.5-haiku' });
+    }
+
+    if (openai) {
+      const response = await openai.chat.completions.create({
+        model: 'gpt-4o',
+        messages: [
+          { role: 'system', content: 'Você é um assistente de IA para o Solo in Public. Responda de forma objetiva e útil.' },
+          { role: 'user', content: prompt }
+        ],
+        temperature: 0.7,
+        max_tokens: Math.min(400, Math.max(50, max_tokens))
+      });
+      const text = response.choices[0]?.message?.content || '';
+      return res.json({ text, model: 'gpt-4o' });
+    }
+
+    // No keys configured
+    return res.status(503).json({
+      text: 'O assistente está em modo de demonstração. Configure OPENAI_API_KEY ou ANTHROPIC_API_KEY no backend para respostas reais.',
+      model: 'default'
+    });
+  } catch (error) {
+    console.error('Assistant generation error:', error);
+    return res.status(500).json({ text: 'Desculpe, ocorreu um erro ao processar sua mensagem. Por favor, tente novamente.', model: 'error' });
+  }
 });
 
 // Client error intake to help diagnose blank screens in preview

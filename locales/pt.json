@@ -265,7 +265,7 @@
     "listeningStop": "Parar gravação",
     "speechUnsupported": "Seu navegador não suporta reconhecimento de voz.",
     "loading": "Digitando...",
-    "initialMessage": "A voz agora está no chat. Acompanhe a conversa em tempo real com transcrição.",
+    "initialMessage": "Dica: use o botão Falar para ditar se quiser. O assistente responde por texto.",
     "errorFallback": "Desculpe, ocorreu um erro. Por favor, tente novamente.",
     "connectionError": "Desculpe, não foi possível conectar ao assistente. Por favor, verifique sua configuração.",
     "handoverPrompt": "Desejo falar com uma pessoa."

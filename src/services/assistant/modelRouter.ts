@@ -1,8 +1,7 @@
-import { OpenAIModel } from '../openaiModel';
-import { AnthropicAIModel } from '../anthropicModel';
 import { AIModel, DefaultAIModel } from '../aiModelService';
 import { AIModelPerformanceManager } from '../../utils/aiPerformance';
 import { AssistantContext, KnowledgeSnippet } from './types';
+import { RemoteAIModel } from './remoteModel';
 
 interface RoutingInput {
   assistantContext: AssistantContext;
@@ -17,21 +16,15 @@ interface RoutingResult {
 
 export class AssistantModelRouter {
   private readonly performanceManager = AIModelPerformanceManager.getInstance();
-  private readonly openAIModel?: OpenAIModel;
-  private readonly anthropicModel?: AnthropicAIModel;
+  private readonly openAIModel: RemoteAIModel;
+  private readonly anthropicModel: RemoteAIModel;
   private readonly defaultModel: DefaultAIModel;
 
   constructor() {
-    const openAIKey = import.meta.env.VITE_OPENAI_API_KEY;
-    const anthropicKey = import.meta.env.VITE_ANTHROPIC_API_KEY;
-
     this.defaultModel = new DefaultAIModel();
-    if (openAIKey) {
-      this.openAIModel = new OpenAIModel(openAIKey);
-    }
-    if (anthropicKey) {
-      this.anthropicModel = new AnthropicAIModel(anthropicKey);
-    }
+    // Sempre usar o backend para gerar respostas (evita CORS e exposição de chaves no browser)
+    this.openAIModel = new RemoteAIModel('gpt-4o');
+    this.anthropicModel = new RemoteAIModel('claude-3.5-haiku');
   }
 
   selectModel(input: RoutingInput): RoutingResult {

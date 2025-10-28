@@ -85,13 +85,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ leadSubmission }) => {
 
       setMessages(prev => [...prev, aiResponse]);
 
-      // Falar a resposta
-      if (synthRef.current) {
-        const utterance = new SpeechSynthesisUtterance(responseText);
-        utterance.lang = speechLocale;
-        utterance.rate = 1.0;
-        synthRef.current.speak(utterance);
-      }
+      // Saída por voz desativada por padrão (apenas entrada por voz quando usuário clicar em "Falar").
 
       if (assistantResponse.handoverTriggered) {
         addNotification({
@@ -216,13 +210,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ leadSubmission }) => {
 
       setMessages(prev => [...prev, aiResponse]);
       
-      // Falar a resposta
-      if (synthRef.current) {
-        const utterance = new SpeechSynthesisUtterance(responseText);
-        utterance.lang = speechLocale;
-        utterance.rate = 1.0;
-        synthRef.current.speak(utterance);
-      }
+      // Saída por voz desativada por padrão (apenas entrada por voz quando usuário clicar em "Falar").
 
       if (assistantResponse.handoverTriggered) {
         addNotification({

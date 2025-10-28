@@ -60,8 +60,8 @@ cp .env.example .env
 - Abra o arquivo `.env`
 - Defina `VITE_API_BASE_URL` apontando para o backend (ex.: `http://localhost:8787`)
 - Adicione sua chave pública da Stripe em `VITE_STRIPE_PUBLIC_KEY`
-- Adicione sua chave de API da OpenAI em `VITE_OPENAI_API_KEY`
-- (Opcional) informe a chave da Anthropic em `VITE_ANTHROPIC_API_KEY` para fallback
+- Configure as chaves de modelo no backend: `OPENAI_API_KEY` e/ou `ANTHROPIC_API_KEY`
+- Evite usar `VITE_OPENAI_API_KEY` / `VITE_ANTHROPIC_API_KEY` (frontend) para produção — o app agora gera respostas via backend
 
 ## Instalação de Dependências
 ```bash
@@ -98,7 +98,7 @@ npm run preview
 - Tailwind CSS
 - Stripe Checkout (assinaturas via backend `/billing/checkout`)
 - LinkedIn OAuth (fluxo iniciado em `/auth/linkedin`)
-- OpenAI GPT-4o (premium) e Anthropic Claude 3.5 Haiku (baseline)
+- OpenAI GPT-4o (premium) e Anthropic Claude 3.5 Haiku (baseline) — geração feita no backend
 - Orquestração híbrida do assistente (memória remota + knowledge base com embeddings)
 - Web Speech API (reconhecimento e síntese de voz no chat)
 
@@ -106,7 +106,7 @@ npm run preview
 - **Briefing / Lead Capture**: o modal envia dados para `POST /leads`, guarda o `leadId` localmente e o reaproveita no chat e no checkout.
 - **Checkout**: o botão “Ativar” chama `POST /billing/checkout`, redirecionando para o Stripe ou simulando o fluxo quando o backend ainda não está configurado.
 - **LinkedIn OAuth**: o login abre `/auth/linkedin?redirect_uri=...&lead_id=...`; quando o usuário retorna com `?oauth=linkedin&status=success`, o app finaliza o login automaticamente.
-- **Assistente**: cada mensagem consulta `/assistant/knowledge/search`, persiste memória via `/assistant/memory/:sessionId` e envia métricas para `/assistant/metrics`. Handover humano aciona `/chatwood/handover`.
+- **Assistente**: cada mensagem consulta `/assistant/knowledge/search`, persiste memória via `/assistant/memory/:sessionId`, gera resposta via `/assistant/generate` (chaves no backend) e envia métricas para `/assistant/metrics`. Handover humano aciona `/chatwood/handover`.
 
 Detalhes adicionais encontram-se em `docs/onboarding-billing-mvp.md` e `docs/assistant-orchestration.md`.
 
@@ -116,6 +116,7 @@ Detalhes adicionais encontram-se em `docs/onboarding-billing-mvp.md` e `docs/ass
 - `POST /billing/webhook`
 - `GET|POST|DELETE /assistant/memory/:sessionId`
 - `POST /assistant/knowledge/search`
+- `POST /assistant/generate`
 - `POST /assistant/metrics`
 - `POST /chatwood/handover`
 

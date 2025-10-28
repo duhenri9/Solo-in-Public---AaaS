@@ -265,7 +265,7 @@
     "listeningStop": "Stop recording",
     "speechUnsupported": "Your browser does not support speech recognition.",
     "loading": "Typing...",
-    "initialMessage": "Voice is now available in chat. Follow the conversation with live transcription.",
+    "initialMessage": "Tip: click Start recording to dictate if you want. The assistant replies in text.",
     "errorFallback": "Sorry, something went wrong. Please try again.",
     "connectionError": "We couldn’t connect to the assistant. Please check your configuration.",
     "handoverPrompt": "I’d like to speak with a human."
