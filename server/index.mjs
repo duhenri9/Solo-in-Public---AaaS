@@ -38,6 +38,7 @@ const memoryFile = path.join(dataDir, 'memory.json');
 const metricsFile = path.join(dataDir, 'metrics.json');
 const handoverFile = path.join(dataDir, 'handovers.json');
 const knowledgeCache = path.join(dataDir, 'knowledge-embeddings.json');
+const postsFile = path.join(dataDir, 'posts.json');
 
 const readJson = async (file, fallback) => {
   try {
@@ -337,6 +338,130 @@ app.post('/chatwood/handover', async (req, res) => {
   res.status(202).json({ status: 'queued' });
 });
 
+// Basic dashboard metrics aggregation
+app.get('/dashboard/metrics', async (_req, res) => {
+  const metrics = await readJson(metricsFile, []);
+  const leads = await readJson(leadsFile, []);
+
+  const totalMessages = metrics.length;
+  const avgResponseTime = totalMessages
+    ? metrics.reduce((sum, m) => sum + (m.responseTime || 0), 0) / totalMessages
+    : 0;
+  const handovers = metrics.filter((m) => m.handoverTriggered).length;
+  const last24h = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+  const messages24h = metrics.filter((m) => (m.recordedAt || m.timestamp || '') > last24h).length;
+
+  res.json({
+    totalMessages,
+    avgResponseTime,
+    handovers,
+    messages24h,
+    leadsCount: leads.length
+  });
+});
+
+// Content generation MVP (limit 3/month)
+const monthKey = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+
+app.get('/content/posts', async (_req, res) => {
+  const posts = await readJson(postsFile, []);
+  res.json({ posts });
+});
+
+app.get('/content/limits', async (_req, res) => {
+  const posts = await readJson(postsFile, []);
+  const mk = monthKey();
+  const used = posts.filter((p) => p.monthKey === mk).length;
+  res.json({ allowedPerMonth: 3, used, remaining: Math.max(0, 3 - used) });
+});
+
+app.post('/content/generate', async (req, res) => {
+  const { topic = '', persona = 'default', locale = 'pt' } = req.body || {};
+  const posts = await readJson(postsFile, []);
+  const mk = monthKey();
+  const used = posts.filter((p) => p.monthKey === mk).length;
+  if (used >= 3) {
+    return res.status(429).json({ error: 'Monthly limit reached', allowedPerMonth: 3, used });
+  }
+
+  const prompt = `Persona: ${persona}\nIdioma: ${locale}\nGere um post curto e autêntico para LinkedIn sobre: ${topic || 'sua jornada como founder solo'}\nEm 5-7 linhas, com CTA leve. Sem emojis.`;
+
+  try {
+    let text = '';
+    if (anthropic) {
+      const response = await anthropic.messages.create({
+        model: 'claude-3-5-haiku-latest',
+        max_tokens: 280,
+        temperature: 0.7,
+        system: 'Gerador de posts do Solo in Public. Seja direto, sem emojis, útil.',
+        messages: [{ role: 'user', content: prompt }]
+      });
+      const block = response.content.find((b) => b.type === 'text');
+      text = (block && 'text' in block ? block.text : '').trim();
+    } else if (openai) {
+      const response = await openai.chat.completions.create({
+        model: 'gpt-4o',
+        messages: [
+          { role: 'system', content: 'Gerador de posts do Solo in Public. Seja direto, sem emojis, útil.' },
+          { role: 'user', content: prompt }
+        ],
+        temperature: 0.7,
+        max_tokens: 280
+      });
+      text = (response.choices[0]?.message?.content || '').trim();
+    } else {
+      const snippets = runFallbackSearch(topic || 'solo in public', locale, 2)
+        .map((s) => `• ${s.title}: ${s.content}`)
+        .join('\n');
+      text = `Modo demonstração — sem chaves de modelo. Ideias de post baseadas no conhecimento:\n${snippets}`;
+    }
+
+    const record = {
+      id: crypto.randomUUID(),
+      content: text || 'Post gerado com sucesso.',
+      persona,
+      locale,
+      createdAt: new Date().toISOString(),
+      approved: false,
+      monthKey: mk
+    };
+    posts.push(record);
+    await writeJson(postsFile, posts);
+    res.status(201).json({ post: record, remaining: Math.max(0, 3 - (used + 1)) });
+  } catch (err) {
+    console.error('content/generate error', err);
+    res.status(500).json({ error: 'Failed to generate post' });
+  }
+});
+
+app.post('/content/approve', async (req, res) => {
+  const { id } = req.body || {};
+  if (!id) return res.status(400).json({ error: 'id required' });
+  const posts = await readJson(postsFile, []);
+  const idx = posts.findIndex((p) => p.id === id);
+  if (idx === -1) return res.status(404).json({ error: 'not found' });
+  posts[idx].approved = true;
+  posts[idx].approvedAt = new Date().toISOString();
+  await writeJson(postsFile, posts);
+  res.json({ post: posts[idx] });
+});
+
+// Simple calendar suggestion (next 2 weeks)
+app.get('/content/calendar', async (req, res) => {
+  const locale = req.query.locale || 'pt';
+  const start = new Date();
+  const suggestions = [];
+  for (let i = 0; i < 14; i += 2) {
+    const d = new Date(start.getTime() + i * 24 * 60 * 60 * 1000);
+    d.setHours(9 + (i % 3) * 3, 0, 0, 0);
+    suggestions.push({
+      date: d.toISOString(),
+      slot: d.toLocaleString(typeof locale === 'string' ? locale : 'pt-BR'),
+      reason: 'Horário sugerido com base em boas práticas de alcance no LinkedIn.'
+    });
+  }
+  res.json({ suggestions });
+});
 // Assistant text generation (server-side, avoids exposing keys in frontend)
 app.post('/assistant/generate', async (req, res) => {
   const { prompt, modelPreference = 'auto', max_tokens = 300 } = req.body || {};

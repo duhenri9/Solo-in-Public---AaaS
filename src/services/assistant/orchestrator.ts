@@ -6,6 +6,7 @@ import { PromptBuilder } from './promptBuilder';
 import { AssistantContext, AssistantResponse, ConversationMessage } from './types';
 import { LeadSubmissionResult, LeadCaptureService } from '../leadCaptureService';
 import { AssistantTelemetryService } from './telemetryService';
+import { PersonaPref } from './personaPref';
 
 interface ProcessMessageInput {
   sessionId: string;
@@ -38,6 +39,9 @@ export class AssistantOrchestrator {
           }
         : undefined
     };
+
+    // Attach persona preference to context for prompt builder
+    (assistantContext as any).persona = PersonaPref.get();
 
     await this.memory.append(sessionId, this.toMessage('user', message));
 

@@ -23,7 +23,7 @@
     ],
     "subtitle": "Deja que el Agente Pro-founder trabaje por ti — el AaaS que gestiona tu presencia en LinkedIn mientras te concentras en el producto.",
     "primaryButton": "Activar mi Agente",
-    "secondaryButton": "Enviar briefing",
+    "secondaryButton": "Empezar Gratis",
     "permissionNote": "Nunca publicaremos nada sin tu permiso."
   },
   "problemSection": {
@@ -112,7 +112,7 @@
       "description": "Ideal para comenzar a construir en público.",
       "price": "R$0",
       "period": "/mes",
-      "cta": "Enviar briefing",
+      "cta": "Empezar Gratis",
       "features": [
         "Dashboard básico",
         "3 publicaciones generadas por IA al mes",
@@ -205,7 +205,6 @@
       "company": "Empresa o proyecto",
       "role": "Cargo o responsabilidad",
       "primaryGoal": "¿Cuál es el objetivo principal con el agente?",
-      "monthlyBudget": "Rango de inversión mensual",
       "urgency": "¿Qué tan urgente es?",
       "notes": "Comparte contexto adicional (opcional)",
       "consent": "Acepto recibir contacto del equipo de Solo in Public para avanzar con el onboarding."
@@ -218,12 +217,6 @@
         "support": "Soporte a clientes o comunidad",
         "other": "Otro"
       },
-      "monthlyBudget": {
-        "starter": "Hasta R$500/mes",
-        "growth": "Entre R$500 y R$1.500/mes",
-        "scale": "Más de R$1.500/mes",
-        "undisclosed": "Prefiero no informar"
-      },
       "urgency": {
         "immediate": "Necesito activarlo esta semana",
         "soon": "Quiero activarlo este mes",
@@ -231,7 +224,7 @@
         "justLooking": "Solo investigando"
       }
     },
-    "submit": "Enviar briefing",
+    "submit": "Empezar Gratis",
     "submitting": "Enviando...",
     "successTitle": "¡Briefing recibido!",
     "successDescription": "Nuestro equipo te contactará en un día hábil con el siguiente paso del onboarding.",

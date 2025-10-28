@@ -30,6 +30,19 @@ const formatKnowledge = (snippets: KnowledgeSnippet[]) => {
     .join('\n');
 };
 
+const personaInstructions = (p?: string) => {
+  switch ((p || '').toLowerCase()) {
+    case 'visionario':
+      return 'Persona: Visionário — tom inspirador, estratégico, focado em visão e impacto.';
+    case 'tecnico':
+      return 'Persona: Técnico — tom detalhado, prático, com foco em como fazer.';
+    case 'coach':
+      return 'Persona: Coach — tom acolhedor, com perguntas e próximos passos.';
+    default:
+      return 'Persona: Padrão — equilíbrio entre clareza e objetividade.';
+  }
+};
+
 export class PromptBuilder {
   static build(input: PromptInput): string {
     const { userMessage, memory, knowledge, context } = input;
@@ -57,6 +70,7 @@ Instruções de resposta:
 - Responda com clareza, cite dados do conhecimento apenas quando forem relevantes, e indique próximos passos quando fizer sentido.
 - Se perceber alta intenção de compra, sugira uma conexão humana e prepare dados para handover.
 - Reforce que toda publicação depende de aprovação explícita do usuário.
+${personaInstructions((context as any).persona)}
 `;
   }
 }

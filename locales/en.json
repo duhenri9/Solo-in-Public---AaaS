@@ -23,7 +23,7 @@
     ],
     "subtitle": "Let the Pro-founder Agent work for you — the AaaS that manages your LinkedIn presence while you focus on the product.",
     "primaryButton": "Activate My Agent",
-    "secondaryButton": "Submit briefing",
+    "secondaryButton": "Start Free",
     "permissionNote": "We will never publish anything without your permission."
   },
   "problemSection": {
@@ -112,7 +112,7 @@
       "description": "Perfect to start building in public.",
       "price": "R$0",
       "period": "/month",
-      "cta": "Submit briefing",
+      "cta": "Start Free",
       "features": [
         "Basic dashboard",
         "3 AI-generated posts per month",
@@ -205,7 +205,6 @@
       "company": "Company or project",
       "role": "Role or responsibility",
       "primaryGoal": "What’s the main goal with the agent?",
-      "monthlyBudget": "Monthly investment range",
       "urgency": "How urgent is this?",
       "notes": "Share any extra context (optional)",
       "consent": "I agree to receive contact from the Solo in Public team to continue onboarding."
@@ -218,12 +217,6 @@
         "support": "Customer or community support",
         "other": "Other"
       },
-      "monthlyBudget": {
-        "starter": "Up to R$500/month",
-        "growth": "Between R$500 and R$1,500/month",
-        "scale": "Above R$1,500/month",
-        "undisclosed": "Prefer not to disclose"
-      },
       "urgency": {
         "immediate": "Need to activate within a week",
         "soon": "Ready to start this month",
@@ -231,7 +224,7 @@
         "justLooking": "Just researching"
       }
     },
-    "submit": "Submit briefing",
+    "submit": "Start Free",
     "submitting": "Sending...",
     "successTitle": "Briefing received!",
     "successDescription": "Our team will reach out within one business day with your onboarding next step.",

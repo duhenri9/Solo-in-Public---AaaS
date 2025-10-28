@@ -19,6 +19,7 @@ import LoginModal from './components/LoginModal';
 import LeadCaptureModal from './components/LeadCaptureModal';
 import ChatBot from './components/ChatBot';
 import FeedbackWidget from './components/FeedbackWidget';
+import DashboardWidget from './components/DashboardWidget';
 import { useTranslation } from 'react-i18next';
 import { LeadCaptureService, LeadSubmissionResult } from '@/src/services/leadCaptureService';
 import { AuthService } from '@/src/services/authService';
@@ -180,6 +181,7 @@ const AppContent: React.FC = () => {
         onSuccess={handleLeadCaptureSuccess}
       />
       <ChatBot leadSubmission={leadSubmission} />
+      <DashboardWidget />
       <FeedbackWidget />
     </div>
   );
