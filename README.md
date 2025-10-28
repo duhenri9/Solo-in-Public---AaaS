@@ -25,6 +25,20 @@ Esta é a regra de ouro do Agente Pro-Founder. Todas as publicações, sugestõe
 
 O controle total permanece com você, garantindo autenticidade e alinhamento com sua voz e valores.
 
+### Tecnologia e Funcionalidades
+
+**Modelo de IA:** GPT-4o da OpenAI
+- Desenvolvido por programador sênior especializado em chatbots da OpenAI
+- Interação fluida e natural, tanto por voz quanto por texto
+- Respostas contextualizadas e otimizadas para fundadores solo
+
+**Voice-in-Chat:**
+- Reconhecimento de voz em tempo real (Web Speech API)
+- Transcrição automática durante a fala
+- Síntese de voz para respostas do assistente
+- Suporte completo em português brasileiro
+- Alternância entre entrada por texto e voz
+
 ## Pré-requisitos
 - Node.js (v18 ou superior)
 - npm ou yarn
@@ -44,7 +58,10 @@ cp .env.example .env
 
 3. Configure suas variáveis de ambiente
 - Abra o arquivo `.env`
-- Adicione sua chave de API do Google GenAI em `VITE_GOOGLE_GENAI_API_KEY`
+- Defina `VITE_API_BASE_URL` apontando para o backend (ex.: `http://localhost:8787`)
+- Adicione sua chave pública da Stripe em `VITE_STRIPE_PUBLIC_KEY`
+- Adicione sua chave de API da OpenAI em `VITE_OPENAI_API_KEY`
+- (Opcional) informe a chave da Anthropic em `VITE_ANTHROPIC_API_KEY` para fallback
 
 ## Instalação de Dependências
 ```bash
@@ -56,19 +73,15 @@ yarn install
 ## Executando o Projeto
 ```bash
 # Modo de desenvolvimento
-npm run dev
-# ou
-yarn dev
+# (frontend + backend)
+npm run dev         # inicia Vite em http://localhost:5173
+npm run server      # inicia API Express em http://localhost:8787
 
-# Build para produção
+# Build para produção do frontend
 npm run build
-# ou
-yarn build
 
 # Preview da build de produção
 npm run preview
-# ou
-yarn preview
 ```
 
 ## Estrutura do Projeto
@@ -79,11 +92,30 @@ yarn preview
 - `types.ts`: Definições de tipos TypeScript
 
 ## Tecnologias Principais
-- React
-- TypeScript
-- Vite
+- React + TypeScript + Vite
 - Tailwind CSS
-- Google GenAI
+- Stripe Checkout (assinaturas via backend `/billing/checkout`)
+- LinkedIn OAuth (fluxo iniciado em `/auth/linkedin`)
+- OpenAI GPT-4o (premium) e Anthropic Claude 3.5 Haiku (baseline)
+- Orquestração híbrida do assistente (memória remota + knowledge base com embeddings)
+- Web Speech API (reconhecimento e síntese de voz no chat)
+
+## Fluxos conectados
+- **Briefing / Lead Capture**: o modal envia dados para `POST /leads`, guarda o `leadId` localmente e o reaproveita no chat e no checkout.
+- **Checkout**: o botão “Ativar” chama `POST /billing/checkout`, redirecionando para o Stripe ou simulando o fluxo quando o backend ainda não está configurado.
+- **LinkedIn OAuth**: o login abre `/auth/linkedin?redirect_uri=...&lead_id=...`; quando o usuário retorna com `?oauth=linkedin&status=success`, o app finaliza o login automaticamente.
+- **Assistente**: cada mensagem consulta `/assistant/knowledge/search`, persiste memória via `/assistant/memory/:sessionId` e envia métricas para `/assistant/metrics`. Handover humano aciona `/chatwood/handover`.
+
+Detalhes adicionais encontram-se em `docs/onboarding-billing-mvp.md` e `docs/assistant-orchestration.md`.
+
+## Endpoints expostos
+- `POST /leads`
+- `POST /billing/checkout`
+- `POST /billing/webhook`
+- `GET|POST|DELETE /assistant/memory/:sessionId`
+- `POST /assistant/knowledge/search`
+- `POST /assistant/metrics`
+- `POST /chatwood/handover`
 
 ## Contribuição
 1. Faça um fork do projeto

@@ -43,3 +43,39 @@
     <script type="module" src="/index.tsx"></script>
   </body>
 </html>
+    <script>
+      // Lightweight client error reporter to help diagnose blank screens
+      (function () {
+        function send(payload) {
+          try {
+            fetch('/client-error', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            }).catch(function () {});
+          } catch (e) {}
+        }
+        window.addEventListener('error', function (e) {
+          send({
+            type: 'error',
+            message: e.message,
+            stack: (e.error && e.error.stack) || null,
+            filename: e.filename,
+            lineno: e.lineno,
+            colno: e.colno,
+            href: location.href,
+            ua: navigator.userAgent
+          });
+        });
+        window.addEventListener('unhandledrejection', function (e) {
+          var reason = e.reason || {};
+          send({
+            type: 'unhandledrejection',
+            message: reason.message || String(reason),
+            stack: reason.stack || null,
+            href: location.href,
+            ua: navigator.userAgent
+          });
+        });
+      })();
+    </script>

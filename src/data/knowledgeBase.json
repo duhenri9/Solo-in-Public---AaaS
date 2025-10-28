@@ -1,0 +1,42 @@
+[
+  {
+    "id": "product-overview-pt",
+    "category": "product",
+    "language": "pt",
+    "title": "Resumo do Solo in Public",
+    "content": "O Solo in Public é um Agente como Serviço que ajuda fundadores solo a construir em público no LinkedIn. O foco é combinar automação inteligente com aprovação humana: nenhum conteúdo é publicado sem a autorização do fundador. As entregas incluem geração de conteúdo alinhado à jornada, calendário IA, dashboards públicos e personas multi-agente.",
+    "tags": ["overview", "produto", "promessa"]
+  },
+  {
+    "id": "product-overview-en",
+    "category": "product",
+    "language": "en",
+    "title": "Solo in Public Overview",
+    "content": "Solo in Public is an Agent-as-a-Service that helps solo founders build in public on LinkedIn. The system mixes intelligent automation with founder approval at every step—nothing is published without explicit consent. Core deliverables include aligned content generation, AI calendars, public dashboards, and multi-agent personas.",
+    "tags": ["overview", "product", "promise"]
+  },
+  {
+    "id": "pricing-summary",
+    "category": "pricing",
+    "language": "pt",
+    "title": "Planos e limites",
+    "content": "Plano Free: 3 posts gerados por IA ao mês, dashboard básico e recomendações limitadas. Plano Pro Founder (R$197/mês): automação completa, engajamento ético, relatórios avançados, personas multi-agente, calendário IA e dashboards compartilháveis. Clientes premium podem solicitar respostas mais ricas e terão acesso ao GPT-4o quando necessário.",
+    "tags": ["pricing", "planos", "gpt-4o"]
+  },
+  {
+    "id": "roadmap-handovers",
+    "category": "support",
+    "language": "pt",
+    "title": "Handover humano",
+    "content": "Quando o lead solicita contato humano, demonstra alta intenção de compra ou precisa de suporte avançado, o assistente registra o contexto no CRM e aciona o Chatwood. A equipe de atendimento recebe o histórico completo com dores, orçamento e urgência para seguir a conversa.",
+    "tags": ["suporte", "handover", "chatwood"]
+  },
+  {
+    "id": "policy-permission",
+    "category": "policy",
+    "language": "pt",
+    "title": "Política de aprovação",
+    "content": "Regra central: o agente nunca publica sem aprovação explícita. Todo conteúdo vai para revisão, e o usuário define tom, limites e lista de temas sensíveis. O assistente reforça essa política em qualquer conversa comercial ou de suporte.",
+    "tags": ["policy", "approval", "trust"]
+  }
+]

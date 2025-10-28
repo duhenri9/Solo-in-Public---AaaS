@@ -4,7 +4,8 @@ export default {
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
   testMatch: ['**/__tests__/**/*.+(ts|tsx)', '**/?(*.)+(spec|test).+(ts|tsx)'],
   moduleNameMapper: {
-    '\\.(css|less|scss|sass)$': 'identity-obj-proxy'
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    '@/(.*)$': '<rootDir>/$1'
   },
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',

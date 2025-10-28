@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { LocalizationProvider } from './hooks/useLocalization';
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
@@ -16,14 +16,32 @@ import { NotificationProvider, useNotifications } from './hooks/useNotifications
 import NotificationContainer from './components/NotificationContainer';
 import CheckoutModal from './components/CheckoutModal';
 import LoginModal from './components/LoginModal';
+import LeadCaptureModal from './components/LeadCaptureModal';
 import ChatBot from './components/ChatBot';
 import FeedbackWidget from './components/FeedbackWidget';
+import { useTranslation } from 'react-i18next';
+import { LeadCaptureService, LeadSubmissionResult } from '@/src/services/leadCaptureService';
+import { AuthService } from '@/src/services/authService';
 
 const AppContent: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isCheckoutModalOpen, setCheckoutModalOpen] = useState<boolean>(false);
   const [isLoginModalOpen, setLoginModalOpen] = useState<boolean>(false);
+  const [isLeadCaptureOpen, setLeadCaptureOpen] = useState<boolean>(false);
+  const [leadSubmission, setLeadSubmission] = useState<LeadSubmissionResult | null>(null);
   const { addNotification } = useNotifications();
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    const cachedLead = LeadCaptureService.getCachedLead();
+    if (cachedLead) {
+      setLeadSubmission({
+        id: cachedLead.id,
+        status: cachedLead.status,
+        submittedAt: cachedLead.submittedAt
+      });
+    }
+  }, []);
 
   const handleOpenCheckout = () => {
     setCheckoutModalOpen(true);
@@ -38,22 +56,62 @@ const AppContent: React.FC = () => {
     setLoginModalOpen(false);
   };
 
-  const handleLoginSuccess = () => {
+  const handleOpenLeadCapture = () => {
+    setLeadCaptureOpen(true);
+  };
+
+  const handleCloseLeadCapture = () => {
+    setLeadCaptureOpen(false);
+  };
+
+  const handleLeadCaptureSuccess = (result: LeadSubmissionResult) => {
+    setLeadSubmission(result);
+    setLeadCaptureOpen(false);
+  };
+
+  const handleLoginSuccess = useCallback(() => {
     setIsLoggedIn(true);
     setLoginModalOpen(false);
     addNotification({
       type: 'success',
-      message: 'Login realizado com sucesso!'
+      title: t('notifications.loginSuccess.title'),
+      message: t('notifications.loginSuccess.message')
     });
-  };
+  }, [addNotification, t]);
 
   const handleLogout = () => {
     setIsLoggedIn(false);
     addNotification({
       type: 'info',
-      message: 'Você foi desconectado com sucesso.'
+      title: t('notifications.logout.title'),
+      message: t('notifications.logout.message')
     });
   };
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const result = AuthService.consumeOAuthResult(window.location.search);
+    if (!result || result.provider !== 'linkedin') {
+      return;
+    }
+
+    if (result.status === 'success') {
+      handleLoginSuccess();
+    } else {
+      addNotification({
+        type: 'error',
+        title: t('notifications.error.title'),
+        message: result.message ?? t('notifications.error.message')
+      });
+    }
+
+    const url = new URL(window.location.href);
+    url.searchParams.delete('oauth');
+    url.searchParams.delete('status');
+    url.searchParams.delete('message');
+    url.searchParams.delete('code');
+    window.history.replaceState({}, '', url.toString());
+  }, [addNotification, handleLoginSuccess, t]);
 
   return (
     <div className="bg-[#0D1117] text-slate-300 antialiased overflow-x-hidden">
@@ -73,7 +131,7 @@ const AppContent: React.FC = () => {
         <main>
           <HeroSection 
             onPrimaryClick={handleOpenCheckout} 
-            onSecondaryClick={handleOpenLogin} 
+            onSecondaryClick={handleOpenLeadCapture} 
           />
           <AnimatedSection>
             <ProblemSection />
@@ -93,7 +151,7 @@ const AppContent: React.FC = () => {
           <AnimatedSection>
             <PricingSection 
               onActivateClick={handleOpenCheckout} 
-              onStartFreeClick={handleOpenLogin} 
+              onStartFreeClick={handleOpenLeadCapture} 
             />
           </AnimatedSection>
           <AnimatedSection>
@@ -108,13 +166,20 @@ const AppContent: React.FC = () => {
       <CheckoutModal 
         isOpen={isCheckoutModalOpen} 
         onClose={handleCloseModals} 
+        leadId={leadSubmission?.id}
       />
       <LoginModal 
         isOpen={isLoginModalOpen}
         onClose={handleCloseModals}
         onLoginSuccess={handleLoginSuccess}
+        leadId={leadSubmission?.id}
       />
-      <ChatBot />
+      <LeadCaptureModal
+        isOpen={isLeadCaptureOpen}
+        onClose={handleCloseLeadCapture}
+        onSuccess={handleLeadCaptureSuccess}
+      />
+      <ChatBot leadSubmission={leadSubmission} />
       <FeedbackWidget />
     </div>
   );
@@ -124,6 +189,7 @@ const App: React.FC = () => {
   return (
     <LocalizationProvider>
       <NotificationProvider>
+        <NotificationContainer />
         <AppContent />
       </NotificationProvider>
     </LocalizationProvider>

@@ -1,0 +1,13 @@
+[
+  {
+    "type": "error",
+    "message": "Uncaught ReferenceError: Cannot access 'My' before initialization",
+    "stack": "ReferenceError: Cannot access 'My' before initialization\n    at ok (http://localhost:8787/assets/index-Cwv-xTdR.js:88:1437)\n    at http://localhost:8787/assets/index-Cwv-xTdR.js:88:1558",
+    "filename": "http://localhost:8787/assets/index-Cwv-xTdR.js",
+    "lineno": 88,
+    "colno": 1437,
+    "href": "http://localhost:8787/",
+    "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+    "receivedAt": "2025-10-28T19:31:38.666Z"
+  }
+]

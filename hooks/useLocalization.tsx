@@ -8,8 +8,11 @@ import enTranslations from '../locales/en.json';
 import esTranslations from '../locales/es.json';
 
 // Configuração do i18n
+if (typeof window !== 'undefined') {
+  i18n.use(LanguageDetector);
+}
+
 i18n
-  .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources: {

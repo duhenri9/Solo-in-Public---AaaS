@@ -1,78 +1,48 @@
 import { aiModelService } from '../services/aiModelService';
 import { AnthropicAIModel } from '../services/anthropicModel';
+import { OpenAIModel } from '../services/openaiModel';
 import { DefaultAIModel } from '../services/aiModelService';
-
-// Interface para métricas de performance do modelo
-interface AIModelMetrics {
-  tokenCost: number;
-  responseTime: number;
-  accuracy: number;
-}
-
-export class AIModelPerformanceManager {
-  private static instance: AIModelPerformanceManager;
-  private modelMetrics: Map<string, AIModelMetrics> = new Map();
-  private fallbackThreshold = {
-    tokenCost: 0.4,     // Custo máximo por token (mais restrito)
-    responseTime: 1800, // Tempo máximo de resposta em ms
-    accuracy: 0.85      // Precisão mínima aceitável
-  };
-
-  private constructor() {}
-
-  public static getInstance(): AIModelPerformanceManager {
-    if (!this.instance) {
-      this.instance = new AIModelPerformanceManager();
-    }
-    return this.instance;
-  }
-
-  // Registrar métricas de desempenho de um modelo
-  public recordModelMetrics(modelName: string, metrics: AIModelMetrics) {
-    this.modelMetrics.set(modelName, metrics);
-  }
-
-  // Verificar se o modelo atende aos requisitos de performance
-  public isModelPerformant(modelName: string): boolean {
-    const metrics = this.modelMetrics.get(modelName);
-    if (!metrics) return false;
-
-    return (
-      metrics.tokenCost <= this.fallbackThreshold.tokenCost &&
-      metrics.responseTime <= this.fallbackThreshold.responseTime &&
-      metrics.accuracy >= this.fallbackThreshold.accuracy
-    );
-  }
-
-  // Método para obter métricas de um modelo específico
-  public getModelMetrics(modelName: string): AIModelMetrics | undefined {
-    return this.modelMetrics.get(modelName);
-  }
-}
+import { AIModelPerformanceManager } from './aiPerformance';
 
 export function configureAIModel() {
   const performanceManager = AIModelPerformanceManager.getInstance();
   
-  // Prioridade sempre será o modelo Claude 3.5 Haiku
-  const anthropicApiKey = import.meta.env.VITE_ANTHROPIC_API_KEY;
+  // Prioridade: GPT-4o (desenvolvido por programador sênior especializado em chatbots OpenAI)
+  const openaiApiKey = import.meta.env.VITE_OPENAI_API_KEY;
   
-  if (!anthropicApiKey) {
-    console.warn('Chave da Anthropic não configurada. Usando modelo padrão.');
-    aiModelService.setModel(new DefaultAIModel());
+  if (openaiApiKey) {
+    const gpt4oModel = new OpenAIModel(openaiApiKey);
+    
+    // Registrar métricas esperadas para o GPT-4o
+    performanceManager.recordModelMetrics('gpt-4o', {
+      tokenCost: 0.03,    // Custo otimizado
+      responseTime: 1500, // Tempo médio de resposta
+      accuracy: 0.97      // Alta precisão e fluidez
+    });
+
+    aiModelService.setModel(gpt4oModel);
     return;
   }
-
-  const claude35HaikuModel = new AnthropicAIModel(anthropicApiKey);
   
-  // Registrar métricas esperadas para o modelo Claude 3.5 Haiku
-  performanceManager.recordModelMetrics('claude-3.5-haiku', {
-    tokenCost: 0.25,    // Custo estimado por token (mais baixo)
-    responseTime: 1200, // Tempo médio de resposta
-    accuracy: 0.95      // Alta precisão
-  });
+  // Fallback: Claude 3.5 Haiku
+  const anthropicApiKey = import.meta.env.VITE_ANTHROPIC_API_KEY;
+  
+  if (anthropicApiKey) {
+    const claude35HaikuModel = new AnthropicAIModel(anthropicApiKey);
+    
+    performanceManager.recordModelMetrics('claude-3.5-haiku', {
+      tokenCost: 0.25,
+      responseTime: 1200,
+      accuracy: 0.95
+    });
 
-  // Sempre definir o modelo Claude 3.5 Haiku como principal
-  aiModelService.setModel(claude35HaikuModel);
+    aiModelService.setModel(claude35HaikuModel);
+    return;
+  }
+  
+  // Fallback final: modelo padrão
+  console.warn('Nenhuma chave de API configurada. Usando modelo padrão.');
+  aiModelService.setModel(new DefaultAIModel());
 }
 
 // Configurar o modelo de IA quando o módulo for importado
