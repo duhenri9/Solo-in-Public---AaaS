@@ -536,9 +536,7 @@ app.post('/assistant/generate', async (req, res) => {
     // No keys configured: simulate a helpful response using knowledge fallback
     const locale = (req.body && req.body.locale) || 'pt';
     const fallback = runFallbackSearch(prompt, locale, 3);
-    const bullets = fallback
-      .map((s) => `• (${s.category}) ${s.title}: ${s.content}`)
-      .join('\n');
+    const bullets = fallback.map((s) => `• (${s.category}) ${s.title}: ${s.content}`).join('\n');
     const text = (
       (bullets && `Modo demonstração — sem chaves de modelo configuradas. Com base no nosso conhecimento:
 ${bullets}
@@ -549,7 +547,22 @@ Se quiser respostas reais, configure OPENAI_API_KEY ou ANTHROPIC_API_KEY no back
     return res.json({ text, model: 'default' });
   } catch (error) {
     console.error('Assistant generation error:', error);
-    return res.status(500).json({ text: 'Desculpe, ocorreu um erro ao processar sua mensagem. Por favor, tente novamente.', model: 'error' });
+    // Graceful fallback: return knowledge-based response even on errors
+    try {
+      const locale = (req.body && req.body.locale) || 'pt';
+      const fallback = runFallbackSearch(prompt, locale, 3);
+      const bullets = fallback.map((s) => `• (${s.category}) ${s.title}: ${s.content}`).join('\n');
+      const text = (
+        (bullets && `Tive um problema técnico agora, mas com base no que sei:
+${bullets}
+
+Podemos continuar daqui ou tentar novamente em instantes.`) ||
+        'Tive um problema técnico agora. Podemos continuar a conversa ou tentar novamente em instantes.'
+      );
+      return res.json({ text, model: 'error-fallback' });
+    } catch (e2) {
+      return res.status(500).json({ text: 'Desculpe, ocorreu um erro ao processar sua mensagem. Por favor, tente novamente.', model: 'error' });
+    }
   }
 });
 
