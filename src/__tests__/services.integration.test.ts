@@ -8,8 +8,7 @@ const createForm = (): LeadCaptureForm => ({
   role: 'CEO',
   primaryGoal: 'content',
   urgency: 'soon',
-  notes: 'Looking for automation',
-  consent: true
+  notes: 'Looking for automation'
 });
 
 describe('LeadCaptureService', () => {

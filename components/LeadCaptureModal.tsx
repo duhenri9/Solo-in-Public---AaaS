@@ -21,7 +21,6 @@ const initialFormState: LeadCaptureForm = {
   primaryGoal: '',
   urgency: '',
   notes: '',
-  consent: false
 };
 
 const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ isOpen, onClose, onSuccess }) => {
@@ -62,7 +61,6 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ isOpen, onClose, on
         primaryGoal: cached.primaryGoal,
         urgency: cached.urgency,
         notes: cached.notes,
-        consent: cached.consent
       });
     }
   }, [isOpen]);
@@ -185,16 +183,7 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ isOpen, onClose, on
                 placeholder={t('leadCapture.fields.notes')}
                 className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              <label className="flex items-start gap-3 text-sm text-slate-300">
-                <input
-                  type="checkbox"
-                  required
-                  checked={formState.consent}
-                  onChange={(event) => handleChange('consent', event.target.checked)}
-                  className="mt-1 h-4 w-4 rounded border-slate-600 bg-slate-800 text-blue-500 focus:ring-blue-400"
-                />
-                <span>{t('leadCapture.fields.consent')}</span>
-              </label>
+              {/* Consentimento removido para fluxo Free sem fricção */}
             </div>
 
             {status === 'error' && (
@@ -206,7 +195,7 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ isOpen, onClose, on
             <Button
               type="submit"
               variant="primary"
-              disabled={status === 'submitting' || !formState.consent}
+              disabled={status === 'submitting'}
               className="w-full py-3 text-lg"
             >
               {status === 'submitting' ? t('leadCapture.submitting') : t('leadCapture.submit')}

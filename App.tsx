@@ -18,6 +18,7 @@ import CheckoutModal from './components/CheckoutModal';
 import LoginModal from './components/LoginModal';
 import LeadCaptureModal from './components/LeadCaptureModal';
 import ChatBot from './components/ChatBot';
+import Dashboard from './pages/Dashboard';
 import FeedbackWidget from './components/FeedbackWidget';
 import { useTranslation } from 'react-i18next';
 import { LeadCaptureService, LeadSubmissionResult } from '@/src/services/leadCaptureService';
@@ -67,6 +68,10 @@ const AppContent: React.FC = () => {
   const handleLeadCaptureSuccess = (result: LeadSubmissionResult) => {
     setLeadSubmission(result);
     setLeadCaptureOpen(false);
+    // Redirecionar automaticamente para o Dashboard (plano Free, sem fricção)
+    if (typeof window !== 'undefined') {
+      window.location.assign('/dashboard');
+    }
   };
 
   const handleLoginSuccess = useCallback(() => {
@@ -112,6 +117,37 @@ const AppContent: React.FC = () => {
     url.searchParams.delete('code');
     window.history.replaceState({}, '', url.toString());
   }, [addNotification, handleLoginSuccess, t]);
+
+  const isDashboard = typeof window !== 'undefined' && window.location.pathname.startsWith('/dashboard');
+
+  if (isDashboard) {
+    return (
+      <div className="bg-[#0D1117] text-slate-300 antialiased overflow-x-hidden">
+        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+          <Header 
+            isLoggedIn={isLoggedIn} 
+            onLoginClick={handleOpenLogin} 
+            onLogoutClick={handleLogout} 
+            onActivateClick={handleOpenCheckout} 
+          />
+        </div>
+        <Dashboard />
+        <LoginModal 
+          isOpen={isLoginModalOpen}
+          onClose={handleCloseModals}
+          onLoginSuccess={handleLoginSuccess}
+          leadId={leadSubmission?.id}
+        />
+        <CheckoutModal 
+          isOpen={isCheckoutModalOpen} 
+          onClose={handleCloseModals} 
+          leadId={leadSubmission?.id}
+        />
+        <ChatBot leadSubmission={leadSubmission} />
+        <FeedbackWidget />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#0D1117] text-slate-300 antialiased overflow-x-hidden">

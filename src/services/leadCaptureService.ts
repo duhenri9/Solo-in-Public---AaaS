@@ -8,7 +8,6 @@ export interface LeadCaptureForm {
   primaryGoal: string;
   urgency: string;
   notes: string;
-  consent: boolean;
 }
 
 export interface LeadSubmissionResult {
@@ -86,7 +85,6 @@ export class LeadCaptureService {
           body: JSON.stringify({
             ...form,
             leadId: basePayload.id,
-            consent: form.consent,
             submittedAt: timestamp,
             source: 'solo-in-public-web'
           })
