@@ -14,7 +14,8 @@
     "philosophy": "Philosophy",
     "login": "Log in",
     "logout": "Log out",
-    "activate": "Activate My Agent"
+    "activate": "Activate My Agent",
+    "dashboard": "Dashboard"
   },
   "heroSection": {
     "titleLines": [

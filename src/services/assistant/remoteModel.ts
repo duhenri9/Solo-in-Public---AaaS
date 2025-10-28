@@ -22,12 +22,16 @@ export class RemoteAIModel implements AIModel {
       });
 
       const data = await res.json().catch(() => null);
-      if (!res.ok) {
-        const msg = (data && (data.text || data.error)) || `HTTP ${res.status}`;
-        throw new Error(String(msg));
+      if (res.ok) {
+        const text: string = (data && data.text) || 'Desculpe, não consegui gerar uma resposta.';
+        return { text: () => text };
       }
-      const text: string = data?.text || 'Desculpe, não consegui gerar uma resposta.';
-      return { text: () => text };
+      // If server returned a fallback text, use it instead of generic error
+      if (data && typeof data.text === 'string') {
+        return { text: () => data.text as string };
+      }
+      const msg = (data && (data.error || data.message)) || `HTTP ${res.status}`;
+      throw new Error(String(msg));
     } catch (err) {
       console.error('Erro ao gerar resposta remota do assistente:', err);
       return {

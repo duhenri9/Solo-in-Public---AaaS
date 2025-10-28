@@ -14,7 +14,8 @@
     "philosophy": "Filosofia",
     "login": "Login",
     "logout": "Sair",
-    "activate": "Ativar meu Agente"
+    "activate": "Ativar meu Agente",
+    "dashboard": "Dashboard"
   },
   "heroSection": {
     "titleLines": [

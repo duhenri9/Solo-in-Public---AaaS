@@ -128,7 +128,8 @@ const AppContent: React.FC = () => {
             isLoggedIn={isLoggedIn} 
             onLoginClick={handleOpenLogin} 
             onLogoutClick={handleLogout} 
-            onActivateClick={handleOpenCheckout} 
+            onActivateClick={handleOpenCheckout}
+            dashboardUrl={leadSubmission ? '/dashboard' : undefined}
           />
         </div>
         <Dashboard />
@@ -161,7 +162,8 @@ const AppContent: React.FC = () => {
             isLoggedIn={isLoggedIn} 
             onLoginClick={handleOpenLogin} 
             onLogoutClick={handleLogout} 
-            onActivateClick={handleOpenCheckout} 
+            onActivateClick={handleOpenCheckout}
+            dashboardUrl={leadSubmission ? '/dashboard' : undefined}
           />
         </div>
         <main>

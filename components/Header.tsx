@@ -15,13 +15,15 @@ interface HeaderProps {
   onLoginClick: () => void;
   onLogoutClick: () => void;
   onActivateClick: () => void;
+  dashboardUrl?: string;
 }
 
 const Header: React.FC<HeaderProps> = ({ 
   isLoggedIn, 
   onLoginClick, 
   onLogoutClick, 
-  onActivateClick 
+  onActivateClick,
+  dashboardUrl
 }) => {
   const { t } = useTranslation();
 
@@ -74,6 +76,14 @@ const Header: React.FC<HeaderProps> = ({
               >
                 {t('header.login')}
               </button>
+              {dashboardUrl && (
+                <a
+                  href={dashboardUrl}
+                  className="text-slate-300 hover:text-white transition-colors text-base font-medium"
+                >
+                  {t('header.dashboard')}
+                </a>
+              )}
               <Button
                 onClick={onActivateClick}
                 variant="primary"
