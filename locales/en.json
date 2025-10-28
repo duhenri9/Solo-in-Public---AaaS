@@ -1,1 +1,20 @@
-{}
+{
+  "header": {
+    "features": "Features",
+    "engagement": "Engagement",
+    "proFeatures": "Pro Features",
+    "pricing": "Pricing",
+    "philosophy": "Philosophy"
+  },
+  "heroSection": {
+    "title": "Build or Optimize in Public.\nGrow by Sharing Value.",
+    "subtitle": "Let the Pro-founder Agent work for you — the AaaS that manages your LinkedIn presence while you focus on the product.",
+    "primaryButton": "Activate My Agent",
+    "secondaryButton": "Start Free",
+    "permissionNote": "We will never publish anything without your permission."
+  },
+  "problemSection": {
+    "title": "Publishing on LinkedIn is essential, but takes time.",
+    "description": "Maintaining consistency, engagement, and authenticity is almost impossible alone. Solo in Public solves this — with AI, purpose, and zero friction."
+  }
+}

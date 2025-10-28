@@ -1,1 +1,20 @@
-{}
+{
+  "header": {
+    "features": "Características",
+    "engagement": "Compromiso",
+    "proFeatures": "Características Pro",
+    "pricing": "Precios",
+    "philosophy": "Filosofía"
+  },
+  "heroSection": {
+    "title": "Construye u Optimiza en Público.\nCrece Compartiendo Valor.",
+    "subtitle": "Deja que el Agente Pro-founder trabaje por ti — el AaaS que gestiona tu presencia en LinkedIn mientras te enfocas en el producto.",
+    "primaryButton": "Activar Mi Agente",
+    "secondaryButton": "Comenzar Gratis",
+    "permissionNote": "Nunca publicaremos nada sin tu permiso."
+  },
+  "problemSection": {
+    "title": "Publicar en LinkedIn es esencial, pero consume tiempo.",
+    "description": "Mantener consistencia, compromiso y autenticidad es casi imposible solo. Solo in Public lo resuelve — con IA, propósito y cero fricción."
+  }
+}

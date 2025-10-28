@@ -2,6 +2,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import './src/utils/aiModelConfig';  // Usar caminho absoluto
+import './src/index.css';  // Corrigir caminho do CSS
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
