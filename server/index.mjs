@@ -408,11 +408,20 @@ app.post('/assistant/generate', async (req, res) => {
       return res.json({ text, model: 'gpt-4o' });
     }
 
-    // No keys configured
-    return res.status(503).json({
-      text: 'O assistente está em modo de demonstração. Configure OPENAI_API_KEY ou ANTHROPIC_API_KEY no backend para respostas reais.',
-      model: 'default'
-    });
+    // No keys configured: simulate a helpful response using knowledge fallback
+    const locale = (req.body && req.body.locale) || 'pt';
+    const fallback = runFallbackSearch(prompt, locale, 3);
+    const bullets = fallback
+      .map((s) => `• (${s.category}) ${s.title}: ${s.content}`)
+      .join('\n');
+    const text = (
+      (bullets && `Modo demonstração — sem chaves de modelo configuradas. Com base no nosso conhecimento:
+${bullets}
+
+Se quiser respostas reais, configure OPENAI_API_KEY ou ANTHROPIC_API_KEY no backend.`) ||
+      'Modo demonstração — sem chaves de modelo configuradas. Compartilhe mais detalhes ou configure as chaves do modelo para respostas completas.'
+    );
+    return res.json({ text, model: 'default' });
   } catch (error) {
     console.error('Assistant generation error:', error);
     return res.status(500).json({ text: 'Desculpe, ocorreu um erro ao processar sua mensagem. Por favor, tente novamente.', model: 'error' });

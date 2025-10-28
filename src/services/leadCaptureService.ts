@@ -6,7 +6,6 @@ export interface LeadCaptureForm {
   company: string;
   role: string;
   primaryGoal: string;
-  monthlyBudget: string;
   urgency: string;
   notes: string;
   consent: boolean;

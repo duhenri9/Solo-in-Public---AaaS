@@ -19,7 +19,6 @@ const initialFormState: LeadCaptureForm = {
   company: '',
   role: '',
   primaryGoal: '',
-  monthlyBudget: '',
   urgency: '',
   notes: '',
   consent: false
@@ -35,10 +34,7 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ isOpen, onClose, on
     () => t('leadCapture.options.primaryGoal', { returnObjects: true }) as Record<string, string>,
     [t]
   );
-  const budgetOptions = useMemo(
-    () => t('leadCapture.options.monthlyBudget', { returnObjects: true }) as Record<string, string>,
-    [t]
-  );
+  // Campo de faixa de investimento removido para o fluxo Free
   const urgencyOptions = useMemo(
     () => t('leadCapture.options.urgency', { returnObjects: true }) as Record<string, string>,
     [t]
@@ -64,7 +60,6 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ isOpen, onClose, on
         company: cached.company,
         role: cached.role,
         primaryGoal: cached.primaryGoal,
-        monthlyBudget: cached.monthlyBudget,
         urgency: cached.urgency,
         notes: cached.notes,
         consent: cached.consent
@@ -167,21 +162,7 @@ const LeadCaptureModal: React.FC<LeadCaptureModalProps> = ({ isOpen, onClose, on
                   </option>
                 ))}
               </select>
-              <select
-                required
-                value={formState.monthlyBudget}
-                onChange={(event) => handleChange('monthlyBudget', event.target.value)}
-                className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="" disabled>
-                  {t('leadCapture.fields.monthlyBudget')}
-                </option>
-                {Object.entries(budgetOptions).map(([key, label]) => (
-                  <option key={key} value={key}>
-                    {label}
-                  </option>
-                ))}
-              </select>
+              {/* Campo "Faixa de investimento mensal" removido para conta Free */}
               <select
                 required
                 value={formState.urgency}

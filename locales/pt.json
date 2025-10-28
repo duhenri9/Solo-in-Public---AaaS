@@ -23,7 +23,7 @@
     ],
     "subtitle": "Deixe o Agente Pro-founder trabalhar por você — o AaaS que gerencia sua presença no LinkedIn enquanto você foca no produto.",
     "primaryButton": "Ativar meu Agente",
-    "secondaryButton": "Enviar briefing",
+    "secondaryButton": "Começar Grátis",
     "permissionNote": "Nós nunca publicaremos nada sem a sua permissão."
   },
   "problemSection": {
@@ -112,7 +112,7 @@
       "description": "Ideal para começar a construir em público.",
       "price": "R$0",
       "period": "/mês",
-      "cta": "Enviar briefing",
+      "cta": "Começar Grátis",
       "features": [
         "Dashboard básico",
         "3 posts/mês gerados por IA",
@@ -231,7 +231,7 @@
         "justLooking": "Somente pesquisando"
       }
     },
-    "submit": "Enviar briefing",
+    "submit": "Começar Grátis",
     "submitting": "Enviando...",
     "successTitle": "Briefing recebido!",
     "successDescription": "Nossa equipe entrará em contato em até 1 dia útil com o próximo passo do onboarding.",

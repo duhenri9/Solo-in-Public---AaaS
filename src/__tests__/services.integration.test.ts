@@ -7,7 +7,6 @@ const createForm = (): LeadCaptureForm => ({
   company: 'Solo Co',
   role: 'CEO',
   primaryGoal: 'content',
-  monthlyBudget: 'starter',
   urgency: 'soon',
   notes: 'Looking for automation',
   consent: true
