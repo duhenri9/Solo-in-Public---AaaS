@@ -16,7 +16,7 @@ O **Agente Pro-Founder** é o assistente de IA da plataforma que trabalha em con
 **Regra Fundamental:**
 > **Nós nunca publicaremos nada sem a sua permissão.**
 
-Esta é a regra de ouro do Agente Pro-Founder. Todas as publicações, sugestões de conteúdo e ações no LinkedIn serão sempre submetidas à sua aprovação explícita antes de qualquer publicação. O agente trabalha como um copiloto inteligente que:
+Todas as publicações, sugestões de conteúdo e ações no LinkedIn serão sempre submetidas à sua aprovação explícita antes de qualquer publicação. O agente trabalha como um copiloto inteligente que:
 
 - Sugere conteúdo baseado em suas preferências e estratégia
 - Propõe timing ideal para publicações
@@ -72,10 +72,12 @@ yarn install
 
 ## Executando o Projeto
 ```bash
-# Modo de desenvolvimento
-# (frontend + backend)
-npm run dev         # inicia Vite em http://localhost:5173
-npm run server      # inicia API Express em http://localhost:8787
+# Desenvolvimento (recomendado)
+npm run server                                    # API em http://localhost:8787
+VITE_API_BASE_URL=http://localhost:8787 npm run dev  # Vite em http://localhost:5173
+
+# Acesse: http://localhost:8787/ (serve SPA em prod ou proxy em dev)
+# Alternativamente: http://localhost:5173/ (dev server direto)
 
 # Build para produção do frontend
 npm run build
@@ -129,3 +131,7 @@ Detalhes adicionais encontram-se em `docs/onboarding-billing-mvp.md` e `docs/ass
 
 ## Contato
 [Inserir informações de contato]
+
+## Releases
+- v0.1.0-functional: baseline funcional com backend Express (leads, billing, memory/knowledge, telemetry), orquestração do assistente (memória curta, base de conhecimento, roteamento de modelos) e fallback SPA estável para preview.
+  - Detalhes e notas adicionais em `CHANGELOG.md`.
