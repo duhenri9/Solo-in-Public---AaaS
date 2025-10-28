@@ -1,5 +1,28 @@
 # Changelog
 
+## v0.2.0-free-dashboard (Free Flow + Dashboard MVP)
+
+Highlights
+- Free plan flow without consent friction; auto-redirect to `/dashboard` after submission.
+- New Dashboard page with basic metrics, persona selection, post generator (3/month), approval, and calendar suggestions.
+- Assistant replies via backend `/assistant/generate` with graceful knowledge-based fallback on errors; TTS disabled by default.
+
+Details
+- Added endpoints: `GET /dashboard/metrics`, `GET /content/posts`, `GET /content/limits`, `POST /content/generate`, `POST /content/approve`, `GET /content/calendar`.
+- Header shows “Dashboard” when user is logged in or a lead/profile exists; upgrade CTA remains visible for upsell.
+- Lead capture modal (PT/EN/ES): removed budget field for Free and consent checkbox; labels updated to “Começar Grátis / Start Free / Empezar Gratis”.
+- Persona preference persisted and injected into assistant prompt.
+- Kept SPA fallback stable for `/dashboard` route.
+
+How to run
+- `npm run server`
+- `VITE_API_BASE_URL=http://localhost:8787 npm run dev`
+- Open `http://localhost:8787/` (landing) and navigate to `/dashboard` after Free signup.
+
+Notes
+- Tag: `v0.2.0-free-dashboard`
+- Previous baseline: `v0.1.0-functional`
+
 ## v0.1.0-functional (Functional Preview Baseline)
 
 Stabilized a fully functional baseline that runs cleanly in preview and production.
@@ -43,4 +66,3 @@ How to run
 Notes
 - Tag created: `v0.1.0-functional`
 - Baseline branch merged into `main`: `feat/preview-fixes-assistant`
-

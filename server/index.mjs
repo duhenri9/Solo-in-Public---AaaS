@@ -611,8 +611,6 @@ if (distExists) {
   });
 }
 
-console.log('Router defined?', Boolean(app._router));
-
 app.listen(port, () => {
   console.log(`AaaS backend listening on http://localhost:${port}`);
   if (app._router && app._router.stack) {

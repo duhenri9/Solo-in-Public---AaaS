@@ -123,6 +123,14 @@ Detalhes adicionais encontram-se em `docs/onboarding-billing-mvp.md` e `docs/ass
 - `POST /assistant/metrics`
 - `POST /chatwood/handover`
 
+Conteúdo/Dashboard (MVP):
+- `GET /dashboard/metrics`
+- `GET /content/posts`
+- `GET /content/limits`
+- `POST /content/generate`
+- `POST /content/approve`
+- `GET /content/calendar`
+
 ## Contribuição
 1. Faça um fork do projeto
 2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
@@ -137,5 +145,5 @@ Detalhes adicionais encontram-se em `docs/onboarding-billing-mvp.md` e `docs/ass
 [Inserir informações de contato]
 
 ## Releases
-- v0.1.0-functional: baseline funcional com backend Express (leads, billing, memory/knowledge, telemetry), orquestração do assistente (memória curta, base de conhecimento, roteamento de modelos) e fallback SPA estável para preview.
-  - Detalhes e notas adicionais em `CHANGELOG.md`.
+- v0.2.0-free-dashboard: fluxo Free sem fricção + Dashboard (métricas, personas, gerador 3/mês, calendário) e assistente robusto via backend com fallback. Detalhes em `CHANGELOG.md`.
+- v0.1.0-functional: baseline funcional com backend Express (leads, billing, memory/knowledge, telemetry), orquestração do assistente (memória curta, base de conhecimento, roteamento de modelos) e fallback SPA estável para preview. Detalhes em `CHANGELOG.md`.
