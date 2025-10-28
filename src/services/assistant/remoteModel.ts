@@ -21,10 +21,11 @@ export class RemoteAIModel implements AIModel {
         body: JSON.stringify({ prompt, modelPreference: this.preferredModel, max_tokens: 300 })
       });
 
+      const data = await res.json().catch(() => null);
       if (!res.ok) {
-        throw new Error(`HTTP ${res.status}`);
+        const msg = (data && (data.text || data.error)) || `HTTP ${res.status}`;
+        throw new Error(String(msg));
       }
-      const data = await res.json();
       const text: string = data?.text || 'Desculpe, não consegui gerar uma resposta.';
       return { text: () => text };
     } catch (err) {
@@ -35,4 +36,3 @@ export class RemoteAIModel implements AIModel {
     }
   }
 }
-

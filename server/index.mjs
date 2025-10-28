@@ -70,6 +70,7 @@ const knowledgeEntries = JSON.parse(
 console.log('Backend CWD:', process.cwd());
 const distDir = path.join(process.cwd(), 'dist');
 let distExists = false;
+const forceDevProxy = process.env.FORCE_DEV_PROXY === '1';
 try {
   await fs.access(distDir);
   distExists = true;
@@ -176,7 +177,7 @@ app.post(
   }
 );
 
-if (distExists) {
+if (distExists && !forceDevProxy) {
   console.log(`Serving static frontend from ${distDir}`);
   app.use('/', express.static(distDir, { fallthrough: true }));
 } else {

@@ -79,6 +79,9 @@ VITE_API_BASE_URL=http://localhost:8787 npm run dev  # Vite em http://localhost:
 # Acesse: http://localhost:8787/ (serve SPA em prod ou proxy em dev)
 # Alternativamente: http://localhost:5173/ (dev server direto)
 
+# Dica: se quiser forçar proxy do backend para o Vite mesmo com dist/ presente:
+# FORCE_DEV_PROXY=1 npm run server
+
 # Build para produção do frontend
 npm run build
 
