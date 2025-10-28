@@ -129,7 +129,7 @@ const AppContent: React.FC = () => {
             onLoginClick={handleOpenLogin} 
             onLogoutClick={handleLogout} 
             onActivateClick={handleOpenCheckout}
-            dashboardUrl={leadSubmission ? '/dashboard' : undefined}
+            dashboardUrl={(isLoggedIn || !!leadSubmission) ? '/dashboard' : undefined}
           />
         </div>
         <Dashboard />
@@ -163,7 +163,7 @@ const AppContent: React.FC = () => {
             onLoginClick={handleOpenLogin} 
             onLogoutClick={handleLogout} 
             onActivateClick={handleOpenCheckout}
-            dashboardUrl={leadSubmission ? '/dashboard' : undefined}
+            dashboardUrl={(isLoggedIn || !!leadSubmission) ? '/dashboard' : undefined}
           />
         </div>
         <main>
